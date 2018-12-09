@@ -1,0 +1,48 @@
+<div class="index-bottom">
+    <ul>
+      <li>
+<!-- {if $menu_status eq 1} -->
+        <a href="{:url('sell/index')}" class="nav-footer1 bot-icon bot-icon4"></a>
+<!-- {else}-->
+        <a href="{:url('sell/index')}" class="nav-footer1 bot-icon bot-icon0"></a>
+<!--{/if}-->
+        <p>首页</p>
+      </li>
+      <li>
+<!-- {if $menu_status eq 2} -->
+        <a href="{:url('user/bonus')}" class="nav-footer2 bot-icon bot-icon5"></a>
+<!-- {else}-->
+ <a href="{:url('user/bonus')}" class="nav-footer2 bot-icon bot-icon1"></a>
+<!--{/if}-->
+        <p>优惠券</p>
+      </li>
+      <li class="nav-fcard">
+        <a class="cart-null" href="{:url('flow/cart')}"></a>
+<!-- {if $menu_status eq 3} -->
+        <a class="nav-footer3 bot-icon bot-icon6"></a>
+<!-- {else}-->
+        <a class="nav-footer3 bot-icon bot-icon2"></a>
+<!--{/if}-->
+<!-- {if $cart_now_number gt 0} -->
+        <div class="sell_circle" id="total_ge" style="display:block;">{$cart_now_number}</div>
+<!-- {else}-->
+        <div class="sell_circle" id="total_ge" style="display:none;">0</div>
+<!--{/if}-->
+        <p class="sell-price1">购物车</p>
+      </li>
+      <li>
+<!-- {if $menu_status eq 4} -->
+        <a href="{:url('user/index')}" class="nav-footer4 bot-icon bot-icon7"></a>
+<!-- {else}-->
+<a href="{:url('user/index')}" class="nav-footer4 bot-icon bot-icon3"></a>
+<!--{/if}-->
+        <p>我的</p>
+      </li>
+    </ul>
+    <div class="fenxiang">
+      <a href="{:url('fuli/index')}">
+          <img src="themes/99yanwo/image/footer/fenxiang-anniu.png">
+      </a>
+    </div>
+  <div class="fenxiang-back"></div>
+</div>

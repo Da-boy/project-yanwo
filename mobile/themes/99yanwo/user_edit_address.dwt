@@ -1,0 +1,100 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+      <a href="{:url('user/address_list')}">
+          <span></span>
+          <i></i>
+      </a>
+  </div>
+  <h1> {$lang.consignee_info} </h1>
+</header>
+<div class="header-px"></div>
+{* 包含脚本文件 *}
+
+<section class="wrap" style="border-bottom:0;">
+  <section class="order_box padd1">
+    <div class="InfoBox" style="padding:0 10px;">
+      <form action="{:url('user/edit_address')}" method="post" name="theForm" onsubmit="return checkConsignee(this)">
+        <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table user-dztab">
+          <tr>
+            <td align="left" ><input name="consignee" placeholder="{$lang.consignee_name}{$lang.require_field}" type="text" class="inputBg_touch" value="{$consignee.consignee|escape}" maxlength="6" /></td>
+          </tr>
+          <tr>
+            <td align="left" ><input placeholder="{$lang.phone}{$lang.require_field}" name="mobile" type="text" class="inputBg_touch" value="{$consignee.mobile|escape}" /></td>
+          </tr>
+          <tr>
+            <td align="left" class="dd2" style="padding: 0.3rem 0;" >
+              <select name="country" onchange="region.changed(this, 1, 'selProvinces')" style="display:none">
+                <option value="0">{$lang.please_select}{$name_of_region[0]}</option>
+                <!-- {foreach from=$country_list item=country} -->
+                <option value="{$country.region_id}" {if $consignee.country eq $country.region_id}selected{/if}>{$country.region_name}</option>
+                <!-- {/foreach} -->
+              </select>
+              <select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities')" class="adress-city" style="display:none">
+                <option value="0">{$lang.please_select}{$name_of_region[1]}</option>
+                <!-- {foreach from=$province_list item=province} -->
+                <option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+                <!-- {/foreach} -->
+              </select>
+              <select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')" class="adress-city">
+                <option value="0">{$lang.please_select}{$name_of_region[2]}</option>
+                <!-- {foreach from=$city_list item=city} -->
+                <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+                <!-- {/foreach} -->
+              </select>
+              <select name="district" id="selDistricts" class="adress-city">
+                <option value="0">{$lang.please_select}{$name_of_region[3]}</option>
+                <!-- {foreach from=$district_list item=district} -->
+                <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+                <!-- {/foreach} -->
+              </select></td>
+              <div class="clearfix"></div>
+          </tr>
+          <tr>
+            <td align="left" ><input name="address" placeholder="{$lang.detailed_address}{$lang.require_field}" type="text" class="inputBg_touch" value="{$consignee.address|escape}" /></td>
+          </tr>
+          <tr class="dizhi_tag">
+              <td class="dd2 clear">
+                  <span class="dd1" style="width: 22%;float: left;margin-left: 2%;">地址类型</span>
+                  <div class="adr-icon">
+                    <input value="住宅" readonly type="radio" name="tag" id="tag_1" {if $consignee.sign_building eq '住宅'}checked="checked"{/if}>
+                    <label for="tag_1" style="margin-left: 0;">住宅</label>
+                    <input value="公司" readonly type="radio" name="tag" id="tag_2"  {if $consignee.sign_building eq '公司'}checked="checked"{/if}>
+                    <label for="tag_2">公司</label>
+                    <input value="学校" readonly type="radio"name="tag" id="tag_3"  {if $consignee.sign_building eq '学校'}checked="checked"{/if}>
+                    <label for="tag_3">学校</label>
+                    <input value="其它" readonly type="radio"name="tag" id="tag_4"  {if $consignee.sign_building eq '其它'}checked="checked"{/if}{if $consignee.sign_building eq ''}checked="checked"{/if}>
+                    <label for="tag_4">其它</label>
+                  </div>
+              </td>
+            </tr>
+        </table>
+        <div class="posi-sent">
+            <input type="submit" name="submit" value="{$lang.confirm_edit}"/>
+            <input type="hidden" name="act" value="act_edit_address" />
+            <input name="address_id" type="hidden" value="{$consignee.address_id}" />
+        </div>
+      </form>
+    </div>
+  </section>
+</section>
+<script type="text/javascript" src="__PUBLIC__/js/region.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/js/shopping_flow.js"></script>
+<script type="text/javascript">
+   document.body.style.backgroundColor="#f0f0f0";
+</script>
+<script type="text/javascript">
+		  region.isAdmin = false;
+		  {foreach from=$lang.flow_js item=item key=key}
+		  var {$key} = "{$item}";
+		  {/foreach}
+		  {literal}
+		  onload = function() {
+			if (!document.all)
+			{
+			  document.forms['theForm'].reset();
+			}
+		  }
+</script>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body></html>

@@ -1,0 +1,18 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+     <a onClick="javascript:history.go(-1);">
+       <span></span>
+       <i></i>
+     </a>
+   </div>
+  <h1>我的通知</h1>
+</header>
+<div class="header-px"></div>
+<div class="nocart">
+    <p>没有任何信息哦~</p>
+</div>
+<!-- #BeginLibraryItem "/library/nav_footer.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

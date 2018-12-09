@@ -1,0 +1,52 @@
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+    <a href="{:url('user/index')}">
+        <span></span>
+        <i></i>
+    </a>
+  </div>
+  <h1> {$lang.consignee_info} </h1>
+</header>
+<div class="header-px"></div>
+<section class="wrap" style="border-bottom:0;">
+  <div class="InfoBox" id="J_ItemList" style="padding:0;"> 
+    <section class="order_box padd1 radius10 single_item"  style="margin-bottom:0;"></section>
+    <a href="javascript:;" class="get_more"></a>  
+    <a href="{:url('user/add_address')}" class="user-btn3">{$lang.add_address}</a> </div>
+</section>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem --> 
+<script type="text/javascript">
+get_asynclist('{:url("user/address_list")}' , '__TPL__/images/loader.gif');
+</script> 
+<script type="text/javascript">
+function select_address(id){
+ var type=document.getElementById('address_'+id).getAttribute('value');
+var url='index.php?m=default&c=user&a=address_list';
+if(type==1){
+$.get('index.php?m=default&c=flow&a=cancel_address_default', {
+	}, function(data) {
+ if (data.error==1)
+  {
+    //alert(data.content);
+    location.href = url;
+  }else{
+  // alert(data.content);
+   location.href = url;
+  }
+	}, 'json'); 
+}else{
+$.get('index.php?m=default&c=flow&a=change_address&address='+id, {
+	}, function(data) {
+ if (data.error==1)
+  {
+  //  alert(data.content);
+    location.href = url;
+  }else{
+  // alert(data.content);
+   location.href = url;
+  }
+	}, 'json'); 
+}
+}
+</script> 

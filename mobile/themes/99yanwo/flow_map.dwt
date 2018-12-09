@@ -1,0 +1,7 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<script type="text/javascript" src="__PUBLIC__/js/region.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/shopping_flow.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/sms.js" ></script>
+<div class="con-map" style='display:block;'>
+      <img id="imgView" class="viewerimg" draggable="false"  src="themes/99yanwo/image/dingdan/tgmap.jpg"/>
+</div>

@@ -1,0 +1,175 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"} 
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if} 
+
+<!-- start goods form -->
+<div class="tab-div"> 
+  <!-- tab bar -->
+
+  
+  <!-- tab body -->
+  <div id="tabbody-div">
+    <p>编辑套餐卡信息</p>
+    <form enctype="multipart/form-data" action="order_goods_card.php?act=card_edit" method="post" >
+      <table width="90%" id="general-table" align="center">
+        <tr>
+          <td class="label">订单号：</td>
+          <td>{$card_info.order_sn}
+          </td>
+        </tr>
+        <tr>
+          <td class="label">订单商品：</td>
+          <td>{$card_info.goods_name}
+            </td>
+        </tr>
+        <tr>
+          <td class="label">商品购买数量：</td>
+          <td>{$card_info.goods_number}
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">每周送瓶数：</td>
+          <td>{$card_info.week_num}
+             </td>
+        </tr>
+
+        <tr>
+          <td class="label">总瓶数：</td>
+          <td>{$card_info.total_num}
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">已送瓶数：</td>
+          <td>{$card_info.send_number}
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">剩余瓶数：</td>
+          <td>{$card_info.remain_num}
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">配送日：</td>
+          <td>
+            <!--<input type="text" value="{$card_info.day}" name="day" />-->
+            <select name="day" id="">
+                <option value="" >请选择</option>
+                <option value="1" {if $card_info.day eq '1'} selected {/if}>周一</option>
+                <option value="2" {if $card_info.day eq '2'} selected {/if}>周二</option>
+                <option value="3" {if $card_info.day eq '3'} selected {/if}>周三</option>
+                <option value="4" {if $card_info.day eq '4'} selected {/if}>周四</option>
+                <option value="5" {if $card_info.day eq '5'} selected {/if}>周五</option>
+                <option value="6" {if $card_info.day eq '6'} selected {/if}>周六</option>
+                <option value="0" {if $card_info.day eq '0'} selected {/if}>周日</option>
+            </select>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">配送时间：</td>
+          <td><input type="text" value="{$card_info.post_time}" name="post_time" />
+          </td>
+        </tr>
+
+      </table>
+
+      <div class="button-div">
+        <input type="hidden" name="card_id" value="{$card_info.card_id}" />
+
+        <input type="submit" value="{$lang.button_submit}" class="button" style="color:red" onclick="if(confirm('确定修改吗?')==false)return false;" />
+        <input type="reset" value="{$lang.button_reset}" class="button" />
+      </div>
+    </form>
+  </div>
+
+  <div id="tabbody-div">
+    <p>修改发货信息</p>
+    <form enctype="multipart/form-data" action="order_goods_card.php?act=newsend" method="post" >
+      <table width="90%" id="general-table" align="center">
+        <tr>
+          <td class="label">订单号：</td>
+          <td>{$card_info.order_sn}
+          </td>
+        </tr>
+        <tr>
+          <td class="label">订单商品：</td>
+          <td>{$card_info.goods_name}
+          </td>
+        </tr>
+        <tr>
+          <td class="label">商品购买数量：</td>
+          <td>{$card_info.goods_number}
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">每周送瓶数：</td>
+          <td><input type="text" value="{$card_info.week_num}"  name="week_num" />
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">总瓶数：</td>
+          <td><input type="text" value="{$card_info.total_num}" name="total_num" />
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">已送瓶数：</td>
+          <td><input type="text" value="{$card_info.send_number}" name="send_num" />
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">剩余瓶数：</td>
+          <td><input type="text" value="{$card_info.remain_num}" name="remain_num" />
+          </td>
+        </tr>
+
+
+
+      </table>
+
+      <div class="button-div">
+        <input type="hidden" name="card_id" value="{$card_info.card_id}" />
+
+        <input type="submit" value="{$lang.button_submit}" class="button" style="color:red" onclick="if(confirm('确定修改吗?')==false)return false;" />
+        <input type="reset" value="{$lang.button_reset}" class="button" />
+      </div>
+    </form>
+  </div>
+</div>
+<!--模板堂修改 start by zhouH-->
+<style type="text/css">
+#feedbox{ margin:0; padding:0 ;border:#80BDCB 2px solid;margin:2px 0 0 2px;background:#fff; height:auto;float:left;overflow:hidden;width:536px; cursor:pointer;position:absolute;top:0px;left:0px;filter:alpha(opacity=100);opacity:1; left:30%; top:8%; margin-right:-268px;}
+#feedbox h2{text-align:center;}
+#feedbox h2 span{font-size:12px; float:right;}
+#feedbox ul{width:536px; padding:0; margin:0;}
+#feedbox li{float:left; list-style:none;  padding:5px; position:relative;}
+#feedbox li i{position:absolute; width:30px; height:30px; right:7px; bottom:10px; display:none;}
+#feedbox li img{border:2px solid #dadada;}
+#feedbox li i img{border:0px;}
+#feedbox li.on i{display:block;}
+</style>
+<div id="feedbox" style="display:none;">
+  <h2>选择属性图片<Span onClick="closeedBox('feedbox')">关闭</Span></h2>
+  <div id="feedcontent"></div>
+</div>
+<!--模板堂修改 end by zhouH--> 
+
+<!-- end goods form --> 
+{insert_scripts files="validator.js,tab.js,showbox.js"} 
+
+{include file="pagefooter.htm"} 

@@ -1,0 +1,342 @@
+﻿<div class="blackbox">
+    <img src="themes/99yanwo/image/fuli/click1.png" class="black-img">
+</div>
+<div class="flow-youhui" style="display:none;">
+    <header id="header">
+      <div class="header_l header_return">
+         <a onClick="javascript:history.go(-1);">
+           <span></span>
+           <i></i>
+         </a>
+       </div>
+      <h1>优惠券</h1>
+    </header>
+    <div class="header-px"></div>
+    <div  class="user_youhui_content">
+         <!-- {if $isdisplay} 是否有优惠券 -->
+        <div >
+                <div class="user_youhui_content_img"><img src="__TPL__/image/user/youhui_icon1.png"/></div>
+                <p  class="user_youhui_content-p">当前没有可用优惠券</p>
+        </div>
+         <!-- {/if} 是否有优惠券 -->
+        <div class="youhui-content">
+             <!-- {foreach from=$bonus_list item=bonus} -->
+            <ul>
+                <li class="youhui-icon">满减券</li>
+                <li class="youhui-li1">
+                    <p><span>￥</span>{$bonus.bonus_money_formated}</p>
+                </li>
+                <li class="youhui-li2">
+                    <p>99度燕窝{$bonus.bonus_money_formated}元优惠券</p>
+                    <p>订单满{$bonus.min_goods_amount}元</p>
+
+                    <p>有效期至：{$bonus.use_end_date}</p>
+                </li>
+            </ul>
+            <!-- {/foreach} -->
+        </div>
+        <a href="{:url('user/bonusgq')}" style="color:red;font-size:0.65rem;text-align:center;line-height:1.5rem;">查看过期优惠券</a>
+   </div>
+</div>
+<header id="header">
+  <div class="header_l header_return">
+     <a onClick="javascript:history.go(-1);">
+       <span></span>
+       <i></i>
+     </a>
+   </div>
+  <h1>订单确认</h1>
+</header>
+<div class="header-px"></div>
+<section class="wrap" style="border-bottom:0;background-color: #f5f5f5;">
+  <form action="{:url('flow/done')}" method="post" name="theForm" id="theForm" onSubmit="return checkOrderForm(this)">
+    <script type="text/javascript">
+        var flow_no_payment = "{$lang.flow_no_payment}";
+        var flow_no_shipping = "{$lang.flow_no_shipping}";
+    </script>
+    <p class="flow-info1">本市16点前下单，可3小时送达</p>
+    <section class="order_box padd1" style="padding-top:0;border-bottom:8px solid #f0f0f0;">
+      <div class="in">
+        <div class="table_box table_box1">
+          <div class="Info">
+            <a href="{:url('flow/consignee_list')}" class="flow1">
+                <div class="flow1-part1">
+                    <img src="themes/99yanwo/image/user/order-dizhi.png" />
+                    <p>{$consignee.sign_building}</p>
+                </div>
+                <div class="flow1-part2">
+                    <span class="text">{$consignee.consignee|escape}
+                      <span class="phone-num">{$consignee.mobile}</span>
+                    </span>
+                    <span class="text2">{$consignee.address|escape}</span>
+                </div>
+            </a>
+            <a href="{:url('flow/consignee_list')}" style="padding:0">
+              <span class="icon-arr" style="top: 25%;"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+	<section class="order_box padd1">
+      <div class="title" style="display:none;">{$lang.use_bonus}</div>
+    </section>
+	<section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
+      <div class="title">{$lang.goods_list}<span class="icon-arr icon-click icon-chang" style="right:3px"></span> </div>
+      <div class="table_box table_box3">
+        <div class="Info InfoBox Info_list" style="border-top:0;display:block;padding: 0 10px;">
+          <!-- {foreach from=$goods_list item=goods} -->
+          <dl class="goods-dl">
+            <dd class="goods-dd1">
+              <div class="goods-img">
+                <ul>
+                    <li><a><img alt="{$goods.goods_name}" src="http://mp.99yanwo.com/{$goods.original_img}"/></a></li>
+                </ul>
+                <p>3小时达</p>
+              </div>
+              <!-- {if $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'} --> 
+              <a href="javascript:void(0)" onClick="setSuitShow({$goods.goods_id})" >
+                  {$goods.goods_name}
+                  <span style="color:#FF0000;">（{$lang.remark_package}）</span>
+              </a>
+              <!-- { else } --> 
+              <a href="{:url('goods/index',array('id'=>$this->_var['goods']['goods_id']))}">{$goods.goods_name}</a> 
+              <!-- {if $goods.parent_id > 0} --> 
+              <span style="color:#FF0000">（{$lang.accessories}）</span> 
+              <!-- {elseif $goods.is_gift} --> 
+              <span style="color:#FF0000">（{$lang.largess}）</span> 
+              <!-- {/if} --> 
+              <!-- {/if} --> 
+              <!-- {if $goods.is_shipping} --><span style="color:#FF0000;font-size:0.5rem;">({$lang.free_goods})</span><!-- {/if} -->
+            </dd>
+
+             <dd  class="goods-dd2" style="text-align:right;">
+                 <p class="goods-red">抢鲜价{$goods.formated_subtotal}</p>
+                 <p>x {$goods.goods_number}</p>
+             </dd>
+          </dl>
+          <!-- {/foreach} --> 
+        </div>
+        <div class="table_box table_box2">
+            <!-- {if $allow_use_bonus} 是否使用红包 -->
+             <div class="Info InfoBox" style="padding:0 10px;border-bottom: 2px solid #f0f0f0;">
+              <dl style="border:0;margin-left: 0;width: 100%;">
+                <dd class="dd2 selectPayment" id="selected4" style="width:40%">
+                    <img src="themes/99yanwo/image/dingdan/youhui-icon.png">
+                    {$lang.use_bonus}
+                </dd>
+                <input name="bonus" type="hidden" id="bonus_{$bonus.bonus_id}" value="{$bonus.bonus_id}" />
+                <span class="youhui-type">{$bonus.type_name}[{$bonus.type_money}]</span>
+                <input type="radio" name="tanchu" value="0" id="tanchu_1" style="display:none;">
+                <label for="tanchu_1"><span class="icon-arr icon-change1" style="right: 0;top:36%"></span></label>
+              </dl>
+            </div>
+            <!-- {else} 是否使用红包 -->
+             <div class="Info InfoBox" style="padding:0 10px;border-bottom: 2px solid #f0f0f0;">
+              <dl style="border:0;margin-left: 0;width: 100%;">
+                <dd class="dd2 selectPayment" id="selected4" style="width:70%;">
+                    <img src="themes/99yanwo/image/dingdan/youhui-icon.png">
+                    {$lang.use_bonus}
+                </dd>
+                <span class="no-use">无可用优惠券</span>
+                <input type="radio" name="tanchu" value="0" id="tanchu_2" style="display:none;">
+                <label for="tanchu_2"><span class="icon-arr icon-change1" style="right: 0;top:36%"></span></label>
+              </dl>
+            </div>
+            <!-- {/if} 是否使用红包 -->
+          </div>
+        <div class="totle" style="padding:0;">
+			<div class="InfoBox" style="padding: 0.2rem 10px;"><!-- #BeginLibraryItem "/Library/order_total.lbi" --><!-- #EndLibraryItem --></div>
+        </div>
+		<a class="shuoming"  href="{:url('fuli/show')}">
+			优惠说明<span>?</span>
+		</a>
+      </div>
+    </section>
+    <section class="order_box padd1" style="display:none">
+      <div class="title">配送方式<span class="span1 radius5">必填</span></div>
+      <div class="table_box table_box2">
+        <div class="Info InfoBox">
+                    <dl style="border:0;">
+            <dd class="dd2" id="selected1">请选择配送方式</dd>
+            <i class="icon-arr icon-arr-bottom icon-arr-Top"></i>
+          </dl>
+          <div class="dl_box" id="shipping" style="display:none; border-top:1px solid #f3f3f3;">
+                        <p>
+              <input name="shipping" type="radio" class="radio" id="shipping_4" style="vertical-align:middle" onclick="selectShipping(this)" value="4" checked="true" supportcod="1" insure="0">
+              <label for="shipping_4"> 市内快递 [￥0.00]</label>
+            </p>
+                        <p>
+              <input name="shipping" type="radio" class="radio" id="shipping_8" style="vertical-align:middle" onclick="selectShipping(this)" value="8" supportcod="1" insure="0">
+              <label for="shipping_8"> 上门取货 [￥0.00]</label>
+            </p>
+                        <p>
+              <input name="shipping" type="radio" class="radio" id="shipping_2" style="vertical-align:middle" onclick="selectShipping(this)" value="2" supportcod="1" insure="0">
+              <label for="shipping_2"> 圆通速递 [￥0.00]</label>
+            </p>
+
+            <!--  <input name="need_insure" id="ECS_NEEDINSURE" type="checkbox"  onclick="selectInsure(this.checked)" value="1"  disabled="true"  />
+                配送是否需要保价-->
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <section class="order_box padd1" style="margin-bottom:0; display:none;">
+      <div class="title">{$lang.payment_method}<span class="span1 radius5">{$lang.require_field}</span></div>
+      <div class="table_box table_box2">
+        <div class="Info InfoBox" style="margin-top: 0;margin-bottom:0;"> 
+          <!--{if $is_exchange_goods neq 1 || $total.real_goods_count neq 0}-->
+          <dl style="border:0;">
+            <dd class="dd2 selectPayment" id="selected2">{$lang.select_payment_method}<i class="icon-arr icon-arr-bottom icon-arr-Top"></i></dd>
+          </dl>
+          <div class="dl_box" id="payment" style="display:none; border-top:1px solid #f3f3f3;"> 
+            <!-- {foreach from=$payment_list item=payment} -->
+            <!--<p>
+              <input type="radio" class="radio" name="payment" id="payment_{$payment.pay_id}" value="{$payment.pay_id}" {if $order.pay_id eq $payment.pay_id}checked{/if} isCod="{$payment.is_cod}" onclick="selectPayment(this)" {if $cod_disabled and $payment.is_cod eq "1"}disabled="true"{/if} style="vertical-align:middle" checked />
+              <label for="payment_{$payment.pay_id}"> {$payment.pay_name} [{$payment.format_pay_fee}]</label>
+            </p>-->
+            <!-- {/foreach} --> 
+          </div>
+          <!--{else}-->
+          <input name = "payment" type="radio" value = "-1" checked="checked"  style="display:none"/>
+          <!--{/if}--> 
+        </div>
+      </div>
+    </section>
+    <section class="order_box padd1">
+    <!-- {if $inv_content_list} 能否开发票 -->
+      <div class="title">{$lang.invoice}</div>
+      <div class="table_box table_box2">
+        <div class="Info InfoBox"> <span class="text f_l">{$lang.is_invoice}</span>
+          <spam class="f_r selectPayment">
+          <span class="modRadio fl" style="margin-top:3px;"> {if $order.need_inv ==1}<i class="fr"></i> <ins>{$lang.yes}</ins>{else}<i class="fl"></i> <ins>{$lang.no}</ins> </span> </span> <i style="background:#fff;"></i>{/if} 
+           <input id="ECS_NEEDINV" class="input" type="hidden" value="0"  name="need_inv">
+        </div>
+        <div class="dl_box" id="inviype_box" style="{if $order.need_inv == 0}display:none;{/if} padding:0 30px 0 10px; border-bottom:1px solid #f3f3f3;"> 
+          
+          <dl style="line-height: 40px;">
+            <dd class="c333">{$lang.invoice_type}</dd>
+            <dd> 
+              <!-- {if $inv_type_list} --> 
+              {$lang.invoice_type}
+              <select name="inv_type" id="ECS_INVTYPE"  onchange="changeNeedInv(1)" style="border:1px solid #ccc;">
+                    {html_options options=$inv_type_list selected=$order.inv_type}
+              </select>
+              <!-- {/if} --> 
+            </dd>
+          </dl>
+          <dl style="line-height: 40px;">
+            <dd class="c333">{$lang.invoice_title}</dd>
+            <dd>
+              <input name="inv_payee" type="text"  class="input" id="ECS_INVPAYEE" size="20" value="{$order.inv_payee}" onblur="changeNeedInv(1)" />
+            </dd>
+          </dl>
+          <dl style="line-height: 40px;">
+            <dd class="c333"> {$lang.invoice_content} </dd>
+            <dd>
+              <select name="inv_content" id="ECS_INVCONTENT"  onchange="changeNeedInv(1)" style="border:1px solid #ccc;">
+                {html_options values=$inv_content_list output=$inv_content_list selected=$order.inv_content}
+              </select>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <!-- {/if} --> 
+    </section>
+    <section class="order_box padd1 pay-main">
+      <!--{if $allow_use_surplus eq 1}-->
+          <input type="radio" name="payment" value="1" id="zhifu-icon1">
+          <label for="zhifu-icon1" class="pay-kind pay-kind1">
+            <p style="margin-top:3rem;">余额支付</p>
+          </label>
+      <!--{else}-->
+      <label class="pay-kind" style="opacity:0.6;margin: 0 20% 0 20%;">
+            <img src="themes/99yanwo/image/dingdan/icon12.png" class="zhifu-icon2">
+            <p>余额支付</p>
+      </label>
+      <!--{/if}-->
+      <input type="radio" name="payment" value="4" id="zhifu-icon2" checked>
+      <label for="zhifu-icon2" class="pay-kind pay-kind2">
+        <p style="margin-top:3rem;">微信支付</p>
+      </label>
+    </section>
+
+    <div class="InfoBox" style="padding:0 10px; display:none">
+      <input type="submit" name="submit" value="{$lang.order_submit}" class="c-btn3" />
+      <input type="hidden" name="step" value="done" />
+    </div>
+    <div class="sell_dingdan_bottom">
+	    <p class="sell_dingdan_bottom1"><b>付款</b>{$total.amount_formated}</p>
+	    <input type="submit" class="dingdan-btn" value="订单提交"/>
+	    <div class="clearfix"></div>
+	</div>
+  </form> 
+</section>
+<script>
+$("#zhifu-icon3").click(function(){
+    $(".blackbox").show();
+});
+$(".blackbox").click(function(){
+    $(".blackbox").hide();
+});
+$(".title").click(function(){
+				$(".Info_list").toggle();
+				$(".icon-chang").toggleClass("icon-list");
+				$(".icon-chang").toggleClass("icon-click");
+		});
+$("#tanchu_1,#tanchu_2,.youhui-type").click(function(){
+				$(".flow-youhui").show();
+				location.hash = "win";//给url加上锚点，此锚点会自动加载到url的
+		});
+function checkLocation(){
+    //hash 属性是一个可读可写的字符串，该字符串是 URL 的锚部分（从 # 号开始的部分）。
+    if(location.hash.indexOf("#win")>-1){
+        $(".flow-youhui").show();
+    }else{
+        $(".flow-youhui").hide();
+    }
+}
+//popstate事件在浏览器操作时触发, 比如点击后退按钮(或者在JavaScript中调用history.back()方法).
+window.onpopstate = function() {
+    checkLocation();
+};
+$(".youhui-content ul").click(function(){
+				$(".flow-youhui").hide();
+				var onclickValue = $(this).attr("onclick").replace(/[^0-9]/ig,""); ; 
+				$("#bonus_{$bonus.bonus_id}").val(onclickValue);
+				var changValue=$(this).find("input").val();
+				$(".youhui-type").html(changValue);
+});
+var oUl = $(".youhui-content ul").length;
+//alert(oUl);
+if(oUl == 0){
+$(".youhui-content").css("min-height","0");
+}
+
+</script>
+<script>
+    var data = new Date();
+    var hour = data.getHours();
+    if(hour <=16){
+        for(var i = 9;i <= hour;i++){
+            $('.hour li').eq(i-8).hide()
+        }
+        $('.flow1-part3 span').click(function(){
+            $('.blackbox1').show();
+        });
+        $('.hour li input').click(function(){
+            $('.blackbox1').hide();
+            var text = $(this).siblings('label').text();
+            $("#pshour").text(text);
+        });
+        $('.hour h2').text("今天");
+    }
+    else {
+        $('.blackbox1').hide();
+        $('.flow1-part3 span').click(function(){
+            alert('请于16点之前购买');
+        });
+        $('.hour h2').text("明天");
+    }
+</script>

@@ -1,0 +1,13 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<a class="back back-red" onclick="javascript:history.go(-1);"></a>
+<div class="fuli-rule">
+    <img src="themes/99yanwo/image/fuli/rule.jpg" />
+    <div class="fuli-rule-p">
+        1.活动时间：2017.4.28-6.29；<br>
+        2.活动期间，邀请新朋友下单各得满99减80优惠券，邀请新朋友最多且成功签收最多的用户，可获得iphone7手机；<br>
+        3.被邀请人需使用邀请人分享的优惠券下单并且签收，方可认定邀请成功；<br>
+        4.同一登陆账号、同一手机、同一终端设备号、同一支付账号、同一收货地址、同一IP、或其他合理显示同一用户的情形，均视为同一用户；<br>
+        5.通过不正当手段获取奖励，99度燕窝有权撤销奖励及相关交易订单；<br>
+        6.最终解释权归99度燕窝所有。
+    </div>
+</div>

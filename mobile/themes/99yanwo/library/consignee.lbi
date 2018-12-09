@@ -1,0 +1,105 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<dl>
+  <dd class="dd2">
+      <p class="consigee-p">配送区域</p>
+  </dd>
+</dl>
+<dl>
+  <dd class="dd2" style="padding-left: 2%;">
+      <a style="color:#666;" id="tgmap" class="tgmap" data-value="mobile/themes/99yanwo/image/dingdan/tgmap.jpg">点击查看免费配送区域</a>
+      <a style="color:#666;" id="tgmap_b" class="tgmap1" data-value="mobile/themes/99yanwo/image/dingdan/tgmap.jpg"></a>
+  </dd>
+</dl>
+<div class="con-map">
+      <img id="imgView" class="viewerimg" draggable="false"  src="themes/99yanwo/image/dingdan/tgmap.jpg"/>
+</div>
+<dl>
+  <dd class="dd2">
+    <input name="consignee" type="text" class="inputBg" id="consignee_{$sn}" value="{$consignee.consignee|escape}"  maxlength="6" placeholder="收货人姓名（必填）"/>
+  </dd>
+</dl>
+<dl>
+  <dd class="dd2">
+    <input name="mobile" type="text" class="inputBg" placeholder="配送员联系您的电话（必填）"  id="mobile" value="{$consignee.mobile|escape}" onkeyup="value=this.value.replace(/\D+/g,'')" maxlength="11"/>
+  </dd>
+</dl>
+<!-- {if $real_goods_count gt 0} --> 
+<!-- 购物车中存在实体商品显示国家和地区 -->
+<dl>
+  <dd class="dd2" style="padding-left:2%;">
+    <select name="country" id="selCountries_{$sn}" onchange="region.changed(this, 1, 'selProvinces_{$sn}')" style="border:1px solid #ccc; padding:2px; display:None;font-size: 0.5rem;">
+        <option value="0">{$lang.please_select}{$name_of_region[0]}</option>
+        <!-- {foreach from=$country_list item=country} -->
+    <option value="{$country.region_id}"{if $country.region_id eq '1'} selected{/if}>{$country.region_name}</option>
+    <!-- {/foreach} -->
+    </select>
+    <select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')" class="adress-city" style="display:none">
+      <option value="0">{$lang.please_select}{$name_of_region[1]}</option>
+      <!-- {foreach from=$province_list item=province} -->
+      <option value="{$province.region_id}" {if $province.region_id eq '27'}selected{/if}>{$province.region_name}</option>
+      <!-- {/foreach} -->
+    </select>
+    <select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')" class="adress-city">
+      <option value="0">{$lang.please_select}{$name_of_region[2]}</option>
+      <!-- {foreach from=$city_list.$sn item=city} -->
+      <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+      <!-- {/foreach} -->
+    </select>
+    <select name="district" id="selDistricts_{$sn}" {if !$district_list.$sn}{/if}  class="adress-city">
+      <option value="0">{$lang.please_select}{$name_of_region[3]}</option>
+      <!-- {foreach from=$district_list.$sn item=district} -->
+      <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+      <!-- {/foreach} -->
+    </select>
+  </dd>
+</dl>
+<!-- {/if} --> 
+
+<dl>
+  <dd class="dd2">
+    <input name="address" type="text" class="inputBg"  id="address_{$sn}" value="{$consignee.address|escape}"  placeholder="街道、楼牌号等"/>
+  </dd>
+</dl>
+<!-- 购物车中存在实体商品显示最佳送货时间及标志行建筑 -->
+    <input type="text" id="moblieH" value="{$consignee.mobile|escape}"  style="display:none;"/>
+<dl  class="dizhi_tag" style="border:0;">
+  <dd class="dd1" style="width: 22%;padding-left: 3%;">地址类型</dd>
+  <dd class="dd2">
+	<input value="住宅" readonly type="radio" name="tag" id="tag_1" {if $consignee.sign_building eq '住宅'}checked="checked"{/if}>
+	<label for="tag_1">住宅</label>
+	<input value="公司" readonly type="radio" name="tag" id="tag_2"  {if $consignee.sign_building eq '公司'}checked="checked"{/if}>
+	<label for="tag_2">公司</label>
+	<input value="学校" readonly type="radio"name="tag" id="tag_3"  {if $consignee.sign_building eq '学校'}checked="checked"{/if}>
+	<label for="tag_3">学校</label>
+	<input value="其它" readonly type="radio"name="tag" id="tag_4"  {if $consignee.sign_building eq '其它'}checked="checked"{/if}{if $consignee.sign_building eq ''}checked="checked"{/if}>
+	<label for="tag_4">其它</label>
+  </dd>
+</dl>
+
+<dl style="border:0;">
+<!-- {if $smarty.session.user_id gt 0 and $consignee.address_id gt 0} --> 
+<!-- 如果登录了，显示删除按钮 -->
+  <dd class="posi-sent">
+    <button type="submit" name="Submit">{$lang.shipping_address}</button>
+  </dd>
+  <dd class="posi-del">
+    <button type="button" name="button" onclick="if (confirm('{$lang.drop_consignee_confirm}')) location.href='{:url('flow/drop_consignee',array('id'=>$this->_var['consignee']['address_id']))}'">{$lang.drop}</button>
+  </dd>
+<!-- {else} -->
+  <dd class="posi-sent">
+    <button type="submit" name="Submit">{$lang.shipping_address}</button>
+  </dd>
+<!-- {/if} -->
+</dl>
+<input type="hidden" name="step" value="consignee" />
+<input type="hidden" name="act" value="checkout" />
+<input name="address_id" type="hidden" value="{$consignee.address_id}" />
+
+<script type="text/javascript" src="__PUBLIC__/js/sms.js" ></script>
+<script type="text/javascript">
+document.body.style.backgroundColor="#f0f0f0";
+$('.consigee-map').click(function(){
+    $('.con-map').show();
+});
+
+</script>

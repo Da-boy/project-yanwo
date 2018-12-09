@@ -1,0 +1,44 @@
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+    <a onclick="javascript:history.go(-1);">
+        <span></span>
+        <i></i>
+    </a>
+  </div>
+  <h1>{$lang.shopping_cart}</h1>
+</header>
+<div class="header-px"></div>
+<div class="nocart">
+	<img src="themes/99yanwo/image/sell/cart-no.png" />
+    <p>你还没有添加任何商品</p>
+</div>
+<div class="index-bottom">
+	<ul>
+		<li>
+			<a href="{:url('sell/index')}" class="bot-icon"></a>	
+			<p>首页</p>
+		</li>
+		<li>
+			<a href="{:url('user/bonus')}" class="bot-icon bot-icon2"></a>
+			<p>优惠券</p>
+		</li>
+		<li style="margin-left: 23%;position: relative;text-align:center;">
+			<input class="bot-icon bot-icon5" type="submit" value=""  readonly="readonly">
+			<div class="sell_circle" id="total_ge">1</div>
+			<p class="sell-price1" style="line-height: 12px;">购物车</p>
+		</li>
+		<li>
+			<a href="{:url('user/index')}" class="bot-icon bot-icon4"></a>	
+			<p>我的</p>
+		</li>
+	</ul>
+	<div class="fenxiang">
+		<a href="{:url('fuli/index')}">
+			<img src="themes/99yanwo/image/footer/fenxiang-anniu.png">
+		</a>
+	</div>
+	<div class="fenxiang-back"></div>
+</div>
+</body>
+</html>

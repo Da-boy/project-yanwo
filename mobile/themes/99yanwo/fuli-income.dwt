@@ -1,0 +1,23 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+    <a onclick="javascript:history.go(-1);">
+        <span></span>
+        <i></i>
+    </a>
+  </div>
+  <h1>收益统计</h1>
+</header>
+<div class="header-px"></div>
+<ul class="income">
+    <li>
+        <h4>累计获得现金：</h4>
+        <p><span>{if $all_money}{$all_money}{else}0{/if}</span>元</p>
+    </li>
+    <li>
+        <h4>累计获得劵：</h4>
+        <p><span>{if $bonus_num}{$bonus_num}{else}0{/if}</span>张</p>
+    </li>
+</ul>
+</body>
+</html>

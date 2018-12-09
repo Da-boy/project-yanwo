@@ -1,0 +1,101 @@
+﻿<script type="text/javascript" src="__PUBLIC__/js/region.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/shopping_flow.js"></script>
+<script type="text/javascript">
+region.isAdmin = false;
+    {foreach from=$lang.flow_js item=item key=key}
+    var {$key} = "{$item}";
+    {/foreach}
+
+    {literal}
+    onload = function() {
+    if (!document.all)
+    {
+      document.forms['theForm'].reset();
+    }
+    }
+    {/literal}
+</script>
+
+<div id="page">
+  <header id="header">
+    <div class="header_l header_return">
+	    <a href="{:url('flow/consignee_list')}">
+		   <span></span>
+		   <i></i>
+		</a>
+	</div>
+    <h1>{$lang.consignee_address}</h1>
+  </header>
+  <div class="header-px"></div>
+</div>
+<div class="wrap" style="border-bottom:0;"> 
+  <!-- 如果有收货地址，循环显示用户的收获地址 --> 
+  <!-- {foreach from=$consignee_list item=consignee key=sn} -->
+  <section class="order_box padd1" style="padding-top:0;padding-bottom:0;">
+    <div class="table_box2 table_box">
+      <form style="padding:0 8px 0 8px;" action="{:url('flow/consignee')}" method="post" name="theForm" id="theForm" onSubmit="return checkConsignee(this)">
+        <!-- #BeginLibraryItem "/Library/consignee.lbi" --><!-- #EndLibraryItem -->
+      </form>
+    </div>
+  </section>
+  <div class="blank3"></div>
+  <!-- {/foreach} --> 
+  
+</div>
+<script>
+    //popup new map
+    $(".tgmap").bind("click",function(){
+        var url="/"+$(this).attr("data-value");
+        var wh=[1040,1108];
+        popupNewMap({url:url,wh:wh,isscale:true});
+    });
+    $(".tgmap1").bind("click",function(){
+        var url="/"+$(this).attr("data-value");
+        var wh=[1040,1108];
+        popupNewMap({url:url,wh:wh,isscale:true});
+    });
+    function popupNewMap(data){
+        var imgData=data.wh;
+        var bgHtml="<div id='map_mask' style='width:100%;height:100%;position:fixed;top:0px;left:0px;z-index:100000;background:#000;opacity:0.6;filter:Alpha(opacity=30);display:none;'></div>";
+        var mapHeight=$(window).height()-12;
+        var mapWidth=$(window).width()-12;
+        var mapLeft=6;
+        var mapTop=6;
+        var scaleH=parseInt(imgData[1]*$(window).width()/imgData[0]);
+        if(scaleH<=mapHeight){
+            mapHeight=scaleH;
+            mapTop=parseInt(($(window).height()-mapHeight)/2);
+        }else{
+            var scaleW=imgData[0]*mapHeight/imgData[1];
+            mapWidth=scaleW;
+            mapLeft=parseInt(($(window).width()-mapWidth)/2);
+        }
+
+        var mapHtml="<div id='close_this_map' style='width:26px;height:26px;background:url(themes/99yanwo/image/dingdan/quxiao.png) no-repeat center;background-size: 100% 100%;position:fixed;right:6px;cursor:pointer;top:"+mapTop+"px;z-index:100002;'></div><div id='map_img_show' class='touchscale' style='position:fixed;box-shadow:0 0 0 6px rgba(255,255,255,0.5);z-index:100001;width:"+mapWidth+"px;height:"+mapHeight+"px;left:"+mapLeft+"px;top:"+mapTop+"px;background:#fff;overflow:hidden;display:none;'><img src='"+data.url+"' width='100%' height='100%'/></div>";
+        $("body").append(bgHtml);
+        $("body").append(mapHtml);
+        $("#close_this_map").fadeIn(400);
+        $("#map_mask").fadeIn(300);
+        $("#map_img_show").fadeIn(300);
+
+        $("#close_this_map").bind("click",function(){
+            console.log("close")
+            $(this).fadeOut(200);
+            $("#map_mask").fadeOut(200);
+            $("#map_img_show").fadeOut(200);
+            setTimeout(function(){
+                $("#close_this_map").remove();
+                $("#map_mask").remove();
+                $("#map_img_show").remove();
+            },200)
+        })
+        if(data.isscale){
+            addTouchScale("touchscale");
+        }
+
+    }
+    function addTouchScale(n){function m(a){var b=event.targetTouches;
+        if(2<=b.length&&parseInt(a)<b.length)return{x:b[parseInt(a)].pageX,y:b[parseInt(a)].pageY}}function p(){var a=event.targetTouches;return{x:a[0].pageX,y:a[0].pageY}}var c,k,d,e,f,g,q,r,l;$("."+n).bind("touchstart",function(a){a.preventDefault();1!=event.targetTouches.length?(l=$(this).find("img").width(),c=m(0),k=m(1),d=Math.abs(k.x-c.x),e=Math.abs(k.y-c.y)):(c=p(),q=$(this).scrollLeft(),r=$(this).scrollTop())});$("."+n).bind("touchmove",
+            function(){if(1!=event.targetTouches.length){c=m(0);k=m(1);f=Math.abs(k.x-c.x);g=Math.abs(k.y-c.y);var a=$(this);if(0<f-d&&0<g-e){if(f-d>g-e)var b=l+Math.abs(f-d);f-d<=g-e&&(b=l+Math.abs(g-e));800<=b&&(b=800);var h=a.height()/a.width()*b;a.find("img").css({width:b+"px",height:h+"px"})}0>=f-d&&0>=g-e&&(Math.abs(f-d)>Math.abs(g-e)&&(b=l-Math.abs(f-d)),Math.abs(f-d)<=Math.abs(g-e)&&(b=l-Math.abs(g-e)),b<=a.width()&&(b=a.width()),h=a.height()/a.width()*b,a.find("img").css({width:b+"px",height:h+"px"}))}else a=
+                    p(),b=c.x-a.x,h=c.y-a.y,a=$(this),b=q+b,h=r+h,0>=b&&(b=0),0>=h&&(h=0),a.scrollLeft(Math.abs(b)),a.scrollTop(Math.abs(h))})};
+</script>

@@ -1,0 +1,243 @@
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+     <a onClick="javascript:history.go(-1);">
+       <span></span>
+       <i></i>
+     </a>
+   </div>
+  <h1> {$lang.order_status} </h1>
+</header>
+<div class="header-px"></div>
+<div class="addBox">请在微信输入您的问题</div>
+<div class="wrap">
+	<div class="time-item">
+		<ul>
+			<li id="hour_show"></li>
+			<li id="minute_show"></li>
+			<li id="second_show"></li>
+		</ul>
+		<p class="send-info"></p>
+		<p class="send-info1">订单准时送达，超时您将获得9元现金优惠券</p>
+	</div>
+  <section class="order-con">
+    <ul class="order-list">
+      <li style="font-size: 0;">
+        <div class="order-box">
+            <div class="order-userinfo1">
+                <img src="themes/99yanwo/image/user/order-dizhi.png" />
+                <p>[{$order.sign_building}]</p>
+            </div>
+            <div class="order-userinfo2">
+                <p class="usr-addr">
+                    <!-- {if $order.exist_real_goods} -->
+                    {$order.address}
+                    <!-- {if $order.zipcode} -->
+                    {$order.zipcode}
+                    <!-- {/if} -->
+                    <!-- {/if}-->
+                </p>
+                <p class="border-bottom usr-name"> {$order.consignee}　　<span class="fr">{$order.mobile}</span> </p>
+            </div>
+        </div>
+      </li>
+      <li>
+        <div class="order-box">
+          <h4 class="detail-h4">查看商品详情</h4>
+          <ul class="book-list">
+            <!-- {foreach from=$goods_list item=goods} -->
+            <li class="border-top">
+              <a href="{:url('goods/index', array('id'=>$this->_var['goods']['goods_id']))}">
+              <div class="order-msg">
+                <img class="img_ware" src="{$site_url}{$goods.goods_thumb}">
+                <ul class="order-msg2">
+                  <li><p class="order-datail-title"> {$goods.goods_name}</p></li>
+                  <li>
+                      <p class="price">{$goods.subtotal}</p>
+                      <p class="order-data">x{$goods.goods_number}</p>
+                  </li>
+                </ul>
+              </div>
+              </a>
+            </li>
+            <!-- {/foreach} -->
+          </ul>
+          <a class="dingdan-kefu">
+            <span><img src="themes/99yanwo/image/dingdan/kefu.png" /></span>
+            联系客服
+          </a>
+        </div>
+      </li>
+      <li>
+        <div class="order-box">
+          <div class="order-width order-width-p">
+            <p>{$lang.order_number}：{$order.order_sn}</p>
+            <p>{$lang.order_money}：{$order.formated_total_fee}</p>
+            <p>{$lang.order_addtime}：{$order.formated_add_time}</p>
+            <p>{$lang.order_status}：{$order.order_status} {$order.pay_status} {$order.shipping_time}</p>
+            <p>付款时间：{$order.pay_time}</p>
+            <p>配送时间：2017-03-04 11：12：12</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="order-box">
+          <div class="order-width">
+            <p style="border-bottom: 2px solid #f1f1f1;">{$lang.select_payment}:<span class="fr">{$order.pay_name}</span></p>
+              <p>
+                  {$lang.goods_all_price}
+                  <!-- {if $order.extension_code eq "group_buy"} -->
+                  {$lang.gb_deposit}
+                  <!-- {/if} -->
+                  <span class="fr">
+                  {$order.formated_goods_amount}
+                  </span>
+              </p>
+              <!-- {if $order.discount gt 0} 折扣 -->
+              <p>{$lang.discount}:<span class="fr">-{$order.formated_discount}</span></p>
+              <!-- {/if} -->
+              <!-- {if $order.tax gt 0} -->
+              <p>{$lang.tax}:<span class="fr">{$order.formated_tax}</span></p>
+              <!-- {/if} -->
+              <!-- {if $order.shipping_fee > 0} -->
+              <p>{$lang.shipping_fee}:<span class="fr">{$order.formated_shipping_fee}</span></p>
+              <!-- {/if} -->
+              <!-- {if $order.insure_fee > 0} -->
+              <p>{$lang.insure_fee}:<span class="fr">{$order.formated_insure_fee}</span></p>
+              <!-- {/if} -->
+              <!-- {if $order.pay_fee > 0} -->
+              <p>{$lang.pay_fee}:<span class="fr"> {$order.formated_pay_fee}</span></p>
+              <!-- {/if} -->
+              <!-- {if $order.pack_fee > 0} -->
+              <p>{$lang.pack_fee}:<span class="fr">{$order.formated_pack_fee}</span></p>
+              <!-- {/if} -->
+              <!-- {if $order.card_fee > 0} -->
+              <p>{$lang.card_fee}:<span class="fr">{$order.formated_card_fee}</span></p>
+              <!-- {/if} -->
+              <!-- {if $order.money_paid > 0} -->
+              <p>{$lang.order_money_paid}:<span class="fr">-{$order.formated_money_paid}</span></p>
+              <!-- {/if} -->
+              <!-- {if $order.surplus > 0} -->
+              <p>{$lang.use_surplus}:<span class="fr">-{$order.formated_surplus}</span></p>
+              <!-- {/if} -->
+              <!-- {if $order.integral_money > 0} -->
+              <p>{$lang.use_integral}: <span class="fr">-{$order.formated_integral_money}</span></p>
+              <!-- {/if} -->
+
+              <!-- {if $order.bonus > 0} -->
+              <p>{$lang.use_bonus}:<span class="fr">-{$order.formated_bonus}</span></p>
+              <!-- {/if} -->
+              <p>运费:<span class="fr">免邮</span></p>
+              <p>
+              <span class="fr red">{$lang.order_amount}: {$order.formated_order_amount} </span>
+              <!-- {if $order.extension_code eq "group_buy"} --><br />
+              {$lang.notice_gb_order_amount}
+              <!-- {/if} -->
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="order-box" style="padding-bottom: 3.2rem;background:none;"></div>
+      </li>
+    </ul>
+      <div class="pay-fix-button">
+          <div class="qx-btn">{$order.handler} </div>
+
+            <div class="wx-pay">{if $can_not_pay neq 1}{if $order.order_amount gt 0}{$order.pay_online}{/if}{/if}</div>
+
+      </div>
+  </section>
+</div>
+<script type="text/javascript">
+if("{$order.pay_time}"){
+    var str = "{$order.pay_time}";
+    //分割支付日期
+    var spstr = str.split("");
+    //获取支付年月日的总数
+    var oDate =parseInt(spstr[4]+spstr[5]+spstr[6]+spstr[7]+spstr[9]+spstr[10]+spstr[12]+spstr[13]);
+    var hour =parseInt(spstr[spstr.length-8]+spstr[spstr.length-7])+3;
+    var minute = parseInt(spstr[spstr.length-5]+spstr[spstr.length-4]);
+    var second = parseInt(spstr[spstr.length-2]+spstr[spstr.length-1]);
+    var now = new Date();//当前时间
+    var year = now.getFullYear();    //年
+    var month = now.getMonth() + 1;   //月
+    if(month<=9){
+        month = '0' + month;
+    }
+    var day = now.getDate();         //日
+    var nDate = parseInt(year+""+month+""+day+"");
+    var oHour = now.getHours();
+    var oMinute = now.getMinutes();
+    var oSecond = now.getSeconds();
+    if(nDate>oDate){
+        var intDiff = parseInt((hour+24-oHour)*3600+(minute-oMinute)*60+(second-oSecond));//倒计时总秒数量
+        if(intDiff > 0 && intDiff < 10800){
+                $(".time-item").show();
+                $(function(){
+                    timer(intDiff);
+                });
+                if(intDiff >= 7200 && intDiff < 10800){
+                    $(".send-info").html("现炖中");
+                }else{
+                    $(".send-info").html("配送中");
+                }
+        }else{
+                $(".time-item").hide();
+                $(".send-info").html("已签收");
+
+        }
+    }else if(nDate == oDate){
+        var intDiff = parseInt((hour-oHour)*3600+(minute-oMinute)*60+(second-oSecond));//倒计时总秒数量
+
+        if(intDiff > 0 && intDiff < 10800){
+            $(".time-item").show();
+            $(function(){
+                timer(intDiff);
+            });
+            if(intDiff >= 7200 && intDiff < 10800){
+                $(".send-info").html("现炖中");
+            }else{
+                $(".send-info").html("配送中");
+            }
+        }
+        else{
+            $(".send-info").html("已签收");
+        }
+    }
+    else{
+      $(".time-item").hide();
+      $(".send-info").html("已签收");
+    }
+    //执行的倒计时函数
+    function timer(intDiff){
+    	window.setInterval(function(){
+    	var hour=0,
+    		minute=0,
+    		second=0;//时间默认值
+    	if(intDiff >0){
+
+    		hour = Math.floor(intDiff / (60 * 60));
+    		minute = Math.floor(intDiff / 60) - (hour * 60);
+    		second = Math.floor(intDiff) - (hour * 60 * 60) - (minute * 60);
+    	}
+    	hour='0'+hour;
+    	if (minute <= 9) {minute = '0' + minute;}
+    	if (second <= 9) {second = '0' + second;}
+
+    	$('#hour_show').html(hour+':');
+    	$('#minute_show').html(minute+':');
+    	$('#second_show').html(second);
+    	intDiff--;
+    	}, 1000);
+    }
+}
+var wHeight = $(".wx-pay").height();
+if(wHeight == 0){
+    $(".wx-pay").hide();
+    $(".qx-btn").css({'float':'none','margin':'10px auto','width':'94%','background-color':'#fc2c47'});
+}
+$(".dingdan-kefu").click(function(){
+    $(".addBox").show().delay(3000).hide(1);
+});
+</script>
+<!-- #EndLibraryItem --> <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->

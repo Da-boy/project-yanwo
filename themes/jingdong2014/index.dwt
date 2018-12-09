@@ -1,0 +1,1170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="RSS|{$page_title}" href="{$feed_url}" />
+{* 包含脚本文件 *}
+{insert_scripts files='common.js,index.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem --> {insert_scripts files='jquery.SuperSlide.js,jd_index.js'}
+<div class="w">
+  <div id="o-slide"> <!-- #BeginLibraryItem "/library/index_ad.lbi" --><!-- #EndLibraryItem --> 
+    <!--slide end-->
+    <div class="jscroll" id="mscroll">
+      <div class="ctrl" id="mscroll-ctrl-prev"><b></b></div>
+      <div class="ctrl" id="mscroll-ctrl-next"><b></b></div>
+      <div class="o-list">
+        <div class="list" id="mscroll-list">
+          <ul class="mscroll-ul" >
+            <!-- TemplateBeginEditable name="首页幻灯片下方广告区域" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!--mscroll end--> 
+  </div>
+  <div class="m fr da0x70"> <!-- TemplateBeginEditable name="首页幻灯片右侧广告区域" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --></div>
+  <!--da end-->
+  
+  <div id="jdnews" class="m m1"> <!-- TemplateBeginEditable name="新闻快报文章区域" -->
+<!-- #BeginLibraryItem "/library/cat_articles.lbi" -->
+
+{if $script_name eq 'index'}
+ <div class="mt">
+      <h2>{$articles_cat.name|escape:html}</h2>
+      <div class="extra"><a href="{$articles_cat.url}" target="_blank">更多快报&nbsp;&gt;</a></div>
+    </div>
+    <div class="mc">
+      <ul>
+       <!--{foreach from=$articles item=article_item}-->
+       <li {if $smarty.foreach.foo.iteration mod 2 eq 1}class="odd"{/if}><a href="{$article_item.url}" target="_blank" title="{$article_item.title|escape:html}">{$article_item.short_title}</a></li>
+        <!--{/foreach}-->
+
+      </ul>
+    </div>
+{else}
+<div class="box">
+ <div class="box_1">
+  <h3>
+  <span><a href="{$articles_cat.url}">{$articles_cat.name|escape:html}</a></span>
+  <a href="{$articles_cat.url}"><img src="../images/more.gif" alt="more" /></a>
+  </h3>
+  <div class="boxCenterList RelaArticle">
+  <!--{foreach from=$articles item=article_item}-->
+  <a href="{$article_item.url}" title="{$article_item.title|escape:html}">{$article_item.short_title}</a> {$article_item.add_time}<br />
+  <!--{/foreach}-->
+  </div>
+ </div>
+</div>
+<div class="blank5"></div>
+{/if}
+
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --> </div>
+  <!--jdnews-->
+  
+  <div class="m _520_a_lifeandjourney_1 hover" id="virtuals-2014">
+    <div class="mt">
+      <ul class="fore1 lh">
+        <li class="fore1 abtest_huafei current"><a href="javascript:void(0);"><s></s>活动<i></i></a></li>
+        <li class="fore2 abtest_lvxing"><a href="javascript:void(0);"><s></s>发货单<i></i></a></li>
+        <li class="fore3 abtest_caipiao"><a href="javascript:void(0);"><s></s>订单<i></i></a></li>
+        <li class="fore4 abtest_youxi"><a href="javascript:void(0);"><s></s>投票<i></i></a></li>
+      </ul>
+    </div>
+    <div class="mc" style="position:absolute;">
+      <div class="virtuals-iframes">
+        <div class="virtuals-w"> <!-- TemplateBeginEditable name="活动区域（宽）" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --> </div>
+        <div class="virtuals-s"> <!-- TemplateBeginEditable name="活动区域（窄）" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --> </div>
+      </div>
+      <div class="virtuals-iframes" id="txtMarquee-top"> <!-- TemplateBeginEditable name="发货单区域" -->
+<!-- #BeginLibraryItem "/library/invoice_query.lbi" -->
+
+<!--{if $invoice_list}-->
+<ul  id="brtup1ul" >
+<!--{foreach from=$invoice_list item=invoice} -->
+<li style="padding-top:6px;">
+ <table width="100%" cellpadding="0" cellspacing="0" border="0">
+		  <tr>
+			  <td width="45%" align="left">&nbsp;{$lang.order_number}:&nbsp;</td>
+			  <td>{$invoice.order_sn}</td>
+		  </tr>
+		  <tr >
+			  <td  align="left">&nbsp;{$lang.consignment}:&nbsp;</td>
+			  <td >{$invoice.invoice_no}</td>
+		  </tr>
+	  </table>
+   <div style="height:10px; border-bottom:1px dashed #ccc; width:100%;"></div>
+
+</li>
+<!--{/foreach}-->
+</ul>
+
+
+<!-- {/if} -->
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --> </div>
+      <div class="virtuals-iframes"> <!-- TemplateBeginEditable name="订单查询区域" -->
+<!-- #BeginLibraryItem "/library/order_query.lbi" -->
+
+<!--{if empty($order_query)}-->
+<script>var invalid_order_sn = "{$lang.invalid_order_sn}"</script>
+<div style="padding:8px; ">
+    <form name="ecsOrderQuery">
+    <input type="text" name="order_sn" class="inputBg" /><br />
+    <div class="blank5"></div>
+    <input type="button" value="{$lang.query_order}" class="bnt_blue_2" onclick="orderQuery()" />
+    </form>
+    <div id="ECS_ORDER_QUERY" style="margin-top:8px;">
+      <!--{else}-->
+      <!--{if $order_query.user_id}-->
+<b>{$lang.order_number}：</b><a href="user.php?act=order_detail&order_id={$order_query.order_id}" class="f6">{$order_query.order_sn}</a><br>
+  <!--{else}-->
+<b>{$lang.order_number}：</b>{$order_query.order_sn}<br>
+  <!--{/if}-->
+<b>{$lang.order_status}：</b><br><font class="f1" style="font-weight:bold; color:#D00;">{$order_query.order_status}</font><br>
+  <!--{if $order_query.invoice_no }-->
+<b>{$lang.consignment}：</b>{$order_query.invoice_no}<br>
+  <!--{/if}-->
+      {if $order_query.shipping_date}：{$lang.shipping_date} {$order_query.shipping_date}<br>
+  <!--{/if}-->
+  <!--{/if}-->
+    </div>
+</div>
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --> </div>
+      <div class="virtuals-iframes"> <!-- TemplateBeginEditable name="投票区域" -->
+<!-- #BeginLibraryItem "/library/vote_list.lbi" -->
+
+{insert name='vote'}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --> </div>
+    </div>
+  </div>
+  
+  <!--virtuals end--> 
+</div>
+<Div class="clear"></Div>
+<div id="showcase" class="w advanced">
+  <div class="m">
+    <div class="mt"> 
+      <!-- 广告位 2_601_4426 -->
+      <h2>生活的橱窗</h2>
+      <img height="24" src="images/shenghuochuchuang.png"> 
+      <!-- 广告位 2_601_4426 end --> 
+    </div>
+    <div class="mc">
+      <div class="sc-list clearfix">
+        <div class="item w-bg"> {insert name='ads_pro' type='生活橱窗广告1'} </div>
+        <div class="item "> {insert name='ads_pro' type='生活橱窗广告2'} </div>
+        <div class="item w-bg"> {insert name='ads_pro' type='生活橱窗广告3'} </div>
+        <div class="item tuangou"> {insert name='ads_pro' type='生活橱窗广告4'} </div>
+        <div class="item "> {insert name='ads_pro' type='生活橱窗广告5'} </div>
+        <div class="item w-bg"> {insert name='ads_pro' type='生活橱窗广告6'} </div>
+        <div class="item "> {insert name='ads_pro' type='生活橱窗广告7'} </div>
+        <div class="item w-bg"> {insert name='ads_pro' type='生活橱窗广告8'} </div>
+      </div>
+      <div id="showcase-promotion-1" class="sc-bottom" style="display: block; ">
+        <div class="item"> <!-- TemplateBeginEditable name="生活橱窗下方通栏广告区域（宽）" -->
+<!-- TemplateEndEditable --> <!-- TemplateBeginEditable name="生活橱窗下方通栏广告区域（窄）" -->
+<!-- TemplateEndEditable --> </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="floors-list">
+   <!-- TemplateBeginEditable name="分类下商品区域" -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" -->
+
+<div class="w w1">
+    <div class="m m1 catalogue">
+      <div class="mt ld">
+        <div class="floor"><b class="fixpng b b1"></b><b class="fixpng b b2" style="height: 34px; display: block; "></b><b class="b b3">1F</b><b class="fixpng b4"></b></div>
+        <h2>{$goods_cat.name}</h2>
+      </div>
+      <div class="mc">
+        <div class="style1">
+          <ul class="lh">
+            <!--{foreach from=$goods_cat.cat_clild item=cat name=foo}-->
+              {if $smarty.foreach.foo.iteration < 17}
+            <li><a href="{$cat.url}">{$cat.name}</a></li>
+            {/if}
+             <!--{/foreach}-->
+  
+          </ul>
+          <span> 
+     
+          <a target="_blank" href="#"><img width="209" height="155" src="http://img13.360buyimg.com/da/jfs/t166/30/2306186077/12990/61996803/53cc6efeNf1657fc5.jpg"></a>
+          
+          </span> </div>
+      </div>
+    </div>
+
+    <div class="m plist">
+      <div class="tab-arrow" style="left: 0px; "><b></b></div>
+       <!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+       {if $smarty.foreach.foo.iteration < 6}
+       {if $smarty.foreach.foo.iteration eq 1}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration} curr">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content"> 
+          <!-- ad start -->
+          <div class="slide" id="cat_slide_{$goods_cat.id}">
+            <div class="slide-itemswrap">
+              <div class="slide-items">
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告1'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告2'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告3'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告4'}</div>
+              </div>
+            </div>
+            <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span></div>
+          </div>
+          <!-- ad end -->
+          <ul class="lh style1">
+           <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+           {if $smarty.foreach.foo2.iteration < 10}
+            <li class="fore{$smarty.foreach.foo2.iteration}">
+              <div class="p-img" style="opacity: 1; "> <a href="{$goods.url}" target="_blank" title="{$goods.goods_name}"><img width="100" height="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a href="{$goods.url}" target="_blank" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span style="display:block;height:1.5em;overflow:hidden;">{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+            {/if}
+             <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {else}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration}">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content">
+          <ul class="lh style3">
+          <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+            <li class="fore1">
+              <div class="p-img ld"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}"><img height="100" width="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span>{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+           <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {/if}
+      {/if}
+       <!--{/foreach}-->
+   
+    </div>
+    <!-- ad start -->
+    <div class="sm sm1 brands">
+      <div class="smt">
+        <h3 style="text-indent:145px;">推荐品牌</h3>
+        <div class="extra"></div>
+      </div>
+      <div class="smc">
+        <ul class="lh">
+        <!-- {foreach from=$goods_cat.brands item=brands name=foo} -->  
+          <li class="fore{$smarty.foreach.foo.iteration}"><a target="_blank" href="{$brands.url}">{if $brands.logo neq "data/brandlogo/"}<img height="35" width="98" src="{$brands.logo}">{else}{$brands.brand_name}{/if}</a></li>
+          <!-- {/foreach} -->
+        </ul>
+      </div>
+    </div>
+    <div class="fr da209x180">
+      <div class="slide" id="brand_slide_{$goods_cat.id}">
+        <div class="slide-itemswrap">
+          <div class="slide-items">
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告1'}</div>
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告2'}</div>
+          </div>
+        </div>
+        <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span></div>
+      </div>
+    </div>
+    <input type="hidden" name="cat_goods" class="cat_goods" value="{$goods_cat.id}"/>
+    <div class="clear"></div>
+  </div>
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" -->
+
+<div class="w w1">
+    <div class="m m1 catalogue">
+      <div class="mt ld">
+        <div class="floor"><b class="fixpng b b1"></b><b class="fixpng b b2" style="height: 34px; display: block; "></b><b class="b b3">1F</b><b class="fixpng b4"></b></div>
+        <h2>{$goods_cat.name}</h2>
+      </div>
+      <div class="mc">
+        <div class="style1">
+          <ul class="lh">
+            <!--{foreach from=$goods_cat.cat_clild item=cat name=foo}-->
+              {if $smarty.foreach.foo.iteration < 17}
+            <li><a href="{$cat.url}">{$cat.name}</a></li>
+            {/if}
+             <!--{/foreach}-->
+  
+          </ul>
+          <span> 
+     
+          <a target="_blank" href="#"><img width="209" height="155" src="http://img13.360buyimg.com/da/jfs/t166/30/2306186077/12990/61996803/53cc6efeNf1657fc5.jpg"></a>
+          
+          </span> </div>
+      </div>
+    </div>
+
+    <div class="m plist">
+      <div class="tab-arrow" style="left: 0px; "><b></b></div>
+       <!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+       {if $smarty.foreach.foo.iteration < 6}
+       {if $smarty.foreach.foo.iteration eq 1}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration} curr">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content"> 
+          <!-- ad start -->
+          <div class="slide" id="cat_slide_{$goods_cat.id}">
+            <div class="slide-itemswrap">
+              <div class="slide-items">
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告1'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告2'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告3'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告4'}</div>
+              </div>
+            </div>
+            <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span></div>
+          </div>
+          <!-- ad end -->
+          <ul class="lh style1">
+           <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+           {if $smarty.foreach.foo2.iteration < 10}
+            <li class="fore{$smarty.foreach.foo2.iteration}">
+              <div class="p-img" style="opacity: 1; "> <a href="{$goods.url}" target="_blank" title="{$goods.goods_name}"><img width="100" height="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a href="{$goods.url}" target="_blank" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span style="display:block;height:1.5em;overflow:hidden;">{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+            {/if}
+             <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {else}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration}">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content">
+          <ul class="lh style3">
+          <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+            <li class="fore1">
+              <div class="p-img ld"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}"><img height="100" width="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span>{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+           <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {/if}
+      {/if}
+       <!--{/foreach}-->
+   
+    </div>
+    <!-- ad start -->
+    <div class="sm sm1 brands">
+      <div class="smt">
+        <h3 style="text-indent:145px;">推荐品牌</h3>
+        <div class="extra"></div>
+      </div>
+      <div class="smc">
+        <ul class="lh">
+        <!-- {foreach from=$goods_cat.brands item=brands name=foo} -->  
+          <li class="fore{$smarty.foreach.foo.iteration}"><a target="_blank" href="{$brands.url}">{if $brands.logo neq "data/brandlogo/"}<img height="35" width="98" src="{$brands.logo}">{else}{$brands.brand_name}{/if}</a></li>
+          <!-- {/foreach} -->
+        </ul>
+      </div>
+    </div>
+    <div class="fr da209x180">
+      <div class="slide" id="brand_slide_{$goods_cat.id}">
+        <div class="slide-itemswrap">
+          <div class="slide-items">
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告1'}</div>
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告2'}</div>
+          </div>
+        </div>
+        <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span></div>
+      </div>
+    </div>
+    <input type="hidden" name="cat_goods" class="cat_goods" value="{$goods_cat.id}"/>
+    <div class="clear"></div>
+  </div>
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" -->
+
+<div class="w w1">
+    <div class="m m1 catalogue">
+      <div class="mt ld">
+        <div class="floor"><b class="fixpng b b1"></b><b class="fixpng b b2" style="height: 34px; display: block; "></b><b class="b b3">1F</b><b class="fixpng b4"></b></div>
+        <h2>{$goods_cat.name}</h2>
+      </div>
+      <div class="mc">
+        <div class="style1">
+          <ul class="lh">
+            <!--{foreach from=$goods_cat.cat_clild item=cat name=foo}-->
+              {if $smarty.foreach.foo.iteration < 17}
+            <li><a href="{$cat.url}">{$cat.name}</a></li>
+            {/if}
+             <!--{/foreach}-->
+  
+          </ul>
+          <span> 
+     
+          <a target="_blank" href="#"><img width="209" height="155" src="http://img13.360buyimg.com/da/jfs/t166/30/2306186077/12990/61996803/53cc6efeNf1657fc5.jpg"></a>
+          
+          </span> </div>
+      </div>
+    </div>
+
+    <div class="m plist">
+      <div class="tab-arrow" style="left: 0px; "><b></b></div>
+       <!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+       {if $smarty.foreach.foo.iteration < 6}
+       {if $smarty.foreach.foo.iteration eq 1}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration} curr">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content"> 
+          <!-- ad start -->
+          <div class="slide" id="cat_slide_{$goods_cat.id}">
+            <div class="slide-itemswrap">
+              <div class="slide-items">
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告1'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告2'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告3'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告4'}</div>
+              </div>
+            </div>
+            <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span></div>
+          </div>
+          <!-- ad end -->
+          <ul class="lh style1">
+           <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+           {if $smarty.foreach.foo2.iteration < 10}
+            <li class="fore{$smarty.foreach.foo2.iteration}">
+              <div class="p-img" style="opacity: 1; "> <a href="{$goods.url}" target="_blank" title="{$goods.goods_name}"><img width="100" height="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a href="{$goods.url}" target="_blank" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span style="display:block;height:1.5em;overflow:hidden;">{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+            {/if}
+             <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {else}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration}">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content">
+          <ul class="lh style3">
+          <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+            <li class="fore1">
+              <div class="p-img ld"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}"><img height="100" width="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span>{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+           <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {/if}
+      {/if}
+       <!--{/foreach}-->
+   
+    </div>
+    <!-- ad start -->
+    <div class="sm sm1 brands">
+      <div class="smt">
+        <h3 style="text-indent:145px;">推荐品牌</h3>
+        <div class="extra"></div>
+      </div>
+      <div class="smc">
+        <ul class="lh">
+        <!-- {foreach from=$goods_cat.brands item=brands name=foo} -->  
+          <li class="fore{$smarty.foreach.foo.iteration}"><a target="_blank" href="{$brands.url}">{if $brands.logo neq "data/brandlogo/"}<img height="35" width="98" src="{$brands.logo}">{else}{$brands.brand_name}{/if}</a></li>
+          <!-- {/foreach} -->
+        </ul>
+      </div>
+    </div>
+    <div class="fr da209x180">
+      <div class="slide" id="brand_slide_{$goods_cat.id}">
+        <div class="slide-itemswrap">
+          <div class="slide-items">
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告1'}</div>
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告2'}</div>
+          </div>
+        </div>
+        <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span></div>
+      </div>
+    </div>
+    <input type="hidden" name="cat_goods" class="cat_goods" value="{$goods_cat.id}"/>
+    <div class="clear"></div>
+  </div>
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" -->
+
+<div class="w w1">
+    <div class="m m1 catalogue">
+      <div class="mt ld">
+        <div class="floor"><b class="fixpng b b1"></b><b class="fixpng b b2" style="height: 34px; display: block; "></b><b class="b b3">1F</b><b class="fixpng b4"></b></div>
+        <h2>{$goods_cat.name}</h2>
+      </div>
+      <div class="mc">
+        <div class="style1">
+          <ul class="lh">
+            <!--{foreach from=$goods_cat.cat_clild item=cat name=foo}-->
+              {if $smarty.foreach.foo.iteration < 17}
+            <li><a href="{$cat.url}">{$cat.name}</a></li>
+            {/if}
+             <!--{/foreach}-->
+  
+          </ul>
+          <span> 
+     
+          <a target="_blank" href="#"><img width="209" height="155" src="http://img13.360buyimg.com/da/jfs/t166/30/2306186077/12990/61996803/53cc6efeNf1657fc5.jpg"></a>
+          
+          </span> </div>
+      </div>
+    </div>
+
+    <div class="m plist">
+      <div class="tab-arrow" style="left: 0px; "><b></b></div>
+       <!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+       {if $smarty.foreach.foo.iteration < 6}
+       {if $smarty.foreach.foo.iteration eq 1}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration} curr">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content"> 
+          <!-- ad start -->
+          <div class="slide" id="cat_slide_{$goods_cat.id}">
+            <div class="slide-itemswrap">
+              <div class="slide-items">
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告1'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告2'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告3'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告4'}</div>
+              </div>
+            </div>
+            <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span></div>
+          </div>
+          <!-- ad end -->
+          <ul class="lh style1">
+           <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+           {if $smarty.foreach.foo2.iteration < 10}
+            <li class="fore{$smarty.foreach.foo2.iteration}">
+              <div class="p-img" style="opacity: 1; "> <a href="{$goods.url}" target="_blank" title="{$goods.goods_name}"><img width="100" height="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a href="{$goods.url}" target="_blank" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span style="display:block;height:1.5em;overflow:hidden;">{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+            {/if}
+             <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {else}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration}">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content">
+          <ul class="lh style3">
+          <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+            <li class="fore1">
+              <div class="p-img ld"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}"><img height="100" width="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span>{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+           <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {/if}
+      {/if}
+       <!--{/foreach}-->
+   
+    </div>
+    <!-- ad start -->
+    <div class="sm sm1 brands">
+      <div class="smt">
+        <h3 style="text-indent:145px;">推荐品牌</h3>
+        <div class="extra"></div>
+      </div>
+      <div class="smc">
+        <ul class="lh">
+        <!-- {foreach from=$goods_cat.brands item=brands name=foo} -->  
+          <li class="fore{$smarty.foreach.foo.iteration}"><a target="_blank" href="{$brands.url}">{if $brands.logo neq "data/brandlogo/"}<img height="35" width="98" src="{$brands.logo}">{else}{$brands.brand_name}{/if}</a></li>
+          <!-- {/foreach} -->
+        </ul>
+      </div>
+    </div>
+    <div class="fr da209x180">
+      <div class="slide" id="brand_slide_{$goods_cat.id}">
+        <div class="slide-itemswrap">
+          <div class="slide-items">
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告1'}</div>
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告2'}</div>
+          </div>
+        </div>
+        <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span></div>
+      </div>
+    </div>
+    <input type="hidden" name="cat_goods" class="cat_goods" value="{$goods_cat.id}"/>
+    <div class="clear"></div>
+  </div>
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" -->
+
+<div class="w w1">
+    <div class="m m1 catalogue">
+      <div class="mt ld">
+        <div class="floor"><b class="fixpng b b1"></b><b class="fixpng b b2" style="height: 34px; display: block; "></b><b class="b b3">1F</b><b class="fixpng b4"></b></div>
+        <h2>{$goods_cat.name}</h2>
+      </div>
+      <div class="mc">
+        <div class="style1">
+          <ul class="lh">
+            <!--{foreach from=$goods_cat.cat_clild item=cat name=foo}-->
+              {if $smarty.foreach.foo.iteration < 17}
+            <li><a href="{$cat.url}">{$cat.name}</a></li>
+            {/if}
+             <!--{/foreach}-->
+  
+          </ul>
+          <span> 
+     
+          <a target="_blank" href="#"><img width="209" height="155" src="http://img13.360buyimg.com/da/jfs/t166/30/2306186077/12990/61996803/53cc6efeNf1657fc5.jpg"></a>
+          
+          </span> </div>
+      </div>
+    </div>
+
+    <div class="m plist">
+      <div class="tab-arrow" style="left: 0px; "><b></b></div>
+       <!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+       {if $smarty.foreach.foo.iteration < 6}
+       {if $smarty.foreach.foo.iteration eq 1}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration} curr">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content"> 
+          <!-- ad start -->
+          <div class="slide" id="cat_slide_{$goods_cat.id}">
+            <div class="slide-itemswrap">
+              <div class="slide-items">
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告1'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告2'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告3'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告4'}</div>
+              </div>
+            </div>
+            <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span></div>
+          </div>
+          <!-- ad end -->
+          <ul class="lh style1">
+           <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+           {if $smarty.foreach.foo2.iteration < 10}
+            <li class="fore{$smarty.foreach.foo2.iteration}">
+              <div class="p-img" style="opacity: 1; "> <a href="{$goods.url}" target="_blank" title="{$goods.goods_name}"><img width="100" height="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a href="{$goods.url}" target="_blank" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span style="display:block;height:1.5em;overflow:hidden;">{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+            {/if}
+             <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {else}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration}">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content">
+          <ul class="lh style3">
+          <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+            <li class="fore1">
+              <div class="p-img ld"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}"><img height="100" width="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span>{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+           <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {/if}
+      {/if}
+       <!--{/foreach}-->
+   
+    </div>
+    <!-- ad start -->
+    <div class="sm sm1 brands">
+      <div class="smt">
+        <h3 style="text-indent:145px;">推荐品牌</h3>
+        <div class="extra"></div>
+      </div>
+      <div class="smc">
+        <ul class="lh">
+        <!-- {foreach from=$goods_cat.brands item=brands name=foo} -->  
+          <li class="fore{$smarty.foreach.foo.iteration}"><a target="_blank" href="{$brands.url}">{if $brands.logo neq "data/brandlogo/"}<img height="35" width="98" src="{$brands.logo}">{else}{$brands.brand_name}{/if}</a></li>
+          <!-- {/foreach} -->
+        </ul>
+      </div>
+    </div>
+    <div class="fr da209x180">
+      <div class="slide" id="brand_slide_{$goods_cat.id}">
+        <div class="slide-itemswrap">
+          <div class="slide-items">
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告1'}</div>
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告2'}</div>
+          </div>
+        </div>
+        <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span></div>
+      </div>
+    </div>
+    <input type="hidden" name="cat_goods" class="cat_goods" value="{$goods_cat.id}"/>
+    <div class="clear"></div>
+  </div>
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" -->
+
+<div class="w w1">
+    <div class="m m1 catalogue">
+      <div class="mt ld">
+        <div class="floor"><b class="fixpng b b1"></b><b class="fixpng b b2" style="height: 34px; display: block; "></b><b class="b b3">1F</b><b class="fixpng b4"></b></div>
+        <h2>{$goods_cat.name}</h2>
+      </div>
+      <div class="mc">
+        <div class="style1">
+          <ul class="lh">
+            <!--{foreach from=$goods_cat.cat_clild item=cat name=foo}-->
+              {if $smarty.foreach.foo.iteration < 17}
+            <li><a href="{$cat.url}">{$cat.name}</a></li>
+            {/if}
+             <!--{/foreach}-->
+  
+          </ul>
+          <span> 
+     
+          <a target="_blank" href="#"><img width="209" height="155" src="http://img13.360buyimg.com/da/jfs/t166/30/2306186077/12990/61996803/53cc6efeNf1657fc5.jpg"></a>
+          
+          </span> </div>
+      </div>
+    </div>
+
+    <div class="m plist">
+      <div class="tab-arrow" style="left: 0px; "><b></b></div>
+       <!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+       {if $smarty.foreach.foo.iteration < 6}
+       {if $smarty.foreach.foo.iteration eq 1}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration} curr">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content"> 
+          <!-- ad start -->
+          <div class="slide" id="cat_slide_{$goods_cat.id}">
+            <div class="slide-itemswrap">
+              <div class="slide-items">
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告1'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告2'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告3'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告4'}</div>
+              </div>
+            </div>
+            <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span></div>
+          </div>
+          <!-- ad end -->
+          <ul class="lh style1">
+           <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+           {if $smarty.foreach.foo2.iteration < 10}
+            <li class="fore{$smarty.foreach.foo2.iteration}">
+              <div class="p-img" style="opacity: 1; "> <a href="{$goods.url}" target="_blank" title="{$goods.goods_name}"><img width="100" height="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a href="{$goods.url}" target="_blank" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span style="display:block;height:1.5em;overflow:hidden;">{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+            {/if}
+             <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {else}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration}">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content">
+          <ul class="lh style3">
+          <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+            <li class="fore1">
+              <div class="p-img ld"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}"><img height="100" width="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span>{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+           <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {/if}
+      {/if}
+       <!--{/foreach}-->
+   
+    </div>
+    <!-- ad start -->
+    <div class="sm sm1 brands">
+      <div class="smt">
+        <h3 style="text-indent:145px;">推荐品牌</h3>
+        <div class="extra"></div>
+      </div>
+      <div class="smc">
+        <ul class="lh">
+        <!-- {foreach from=$goods_cat.brands item=brands name=foo} -->  
+          <li class="fore{$smarty.foreach.foo.iteration}"><a target="_blank" href="{$brands.url}">{if $brands.logo neq "data/brandlogo/"}<img height="35" width="98" src="{$brands.logo}">{else}{$brands.brand_name}{/if}</a></li>
+          <!-- {/foreach} -->
+        </ul>
+      </div>
+    </div>
+    <div class="fr da209x180">
+      <div class="slide" id="brand_slide_{$goods_cat.id}">
+        <div class="slide-itemswrap">
+          <div class="slide-items">
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告1'}</div>
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告2'}</div>
+          </div>
+        </div>
+        <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span></div>
+      </div>
+    </div>
+    <input type="hidden" name="cat_goods" class="cat_goods" value="{$goods_cat.id}"/>
+    <div class="clear"></div>
+  </div>
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" -->
+
+<div class="w w1">
+    <div class="m m1 catalogue">
+      <div class="mt ld">
+        <div class="floor"><b class="fixpng b b1"></b><b class="fixpng b b2" style="height: 34px; display: block; "></b><b class="b b3">1F</b><b class="fixpng b4"></b></div>
+        <h2>{$goods_cat.name}</h2>
+      </div>
+      <div class="mc">
+        <div class="style1">
+          <ul class="lh">
+            <!--{foreach from=$goods_cat.cat_clild item=cat name=foo}-->
+              {if $smarty.foreach.foo.iteration < 17}
+            <li><a href="{$cat.url}">{$cat.name}</a></li>
+            {/if}
+             <!--{/foreach}-->
+  
+          </ul>
+          <span> 
+     
+          <a target="_blank" href="#"><img width="209" height="155" src="http://img13.360buyimg.com/da/jfs/t166/30/2306186077/12990/61996803/53cc6efeNf1657fc5.jpg"></a>
+          
+          </span> </div>
+      </div>
+    </div>
+
+    <div class="m plist">
+      <div class="tab-arrow" style="left: 0px; "><b></b></div>
+       <!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+       {if $smarty.foreach.foo.iteration < 6}
+       {if $smarty.foreach.foo.iteration eq 1}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration} curr">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content"> 
+          <!-- ad start -->
+          <div class="slide" id="cat_slide_{$goods_cat.id}">
+            <div class="slide-itemswrap">
+              <div class="slide-items">
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告1'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告2'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告3'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告4'}</div>
+              </div>
+            </div>
+            <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span></div>
+          </div>
+          <!-- ad end -->
+          <ul class="lh style1">
+           <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+           {if $smarty.foreach.foo2.iteration < 10}
+            <li class="fore{$smarty.foreach.foo2.iteration}">
+              <div class="p-img" style="opacity: 1; "> <a href="{$goods.url}" target="_blank" title="{$goods.goods_name}"><img width="100" height="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a href="{$goods.url}" target="_blank" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span style="display:block;height:1.5em;overflow:hidden;">{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+            {/if}
+             <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {else}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration}">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content">
+          <ul class="lh style3">
+          <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+            <li class="fore1">
+              <div class="p-img ld"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}"><img height="100" width="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span>{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+           <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {/if}
+      {/if}
+       <!--{/foreach}-->
+   
+    </div>
+    <!-- ad start -->
+    <div class="sm sm1 brands">
+      <div class="smt">
+        <h3 style="text-indent:145px;">推荐品牌</h3>
+        <div class="extra"></div>
+      </div>
+      <div class="smc">
+        <ul class="lh">
+        <!-- {foreach from=$goods_cat.brands item=brands name=foo} -->  
+          <li class="fore{$smarty.foreach.foo.iteration}"><a target="_blank" href="{$brands.url}">{if $brands.logo neq "data/brandlogo/"}<img height="35" width="98" src="{$brands.logo}">{else}{$brands.brand_name}{/if}</a></li>
+          <!-- {/foreach} -->
+        </ul>
+      </div>
+    </div>
+    <div class="fr da209x180">
+      <div class="slide" id="brand_slide_{$goods_cat.id}">
+        <div class="slide-itemswrap">
+          <div class="slide-items">
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告1'}</div>
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告2'}</div>
+          </div>
+        </div>
+        <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span></div>
+      </div>
+    </div>
+    <input type="hidden" name="cat_goods" class="cat_goods" value="{$goods_cat.id}"/>
+    <div class="clear"></div>
+  </div>
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" -->
+
+<div class="w w1">
+    <div class="m m1 catalogue">
+      <div class="mt ld">
+        <div class="floor"><b class="fixpng b b1"></b><b class="fixpng b b2" style="height: 34px; display: block; "></b><b class="b b3">1F</b><b class="fixpng b4"></b></div>
+        <h2>{$goods_cat.name}</h2>
+      </div>
+      <div class="mc">
+        <div class="style1">
+          <ul class="lh">
+            <!--{foreach from=$goods_cat.cat_clild item=cat name=foo}-->
+              {if $smarty.foreach.foo.iteration < 17}
+            <li><a href="{$cat.url}">{$cat.name}</a></li>
+            {/if}
+             <!--{/foreach}-->
+  
+          </ul>
+          <span> 
+     
+          <a target="_blank" href="#"><img width="209" height="155" src="http://img13.360buyimg.com/da/jfs/t166/30/2306186077/12990/61996803/53cc6efeNf1657fc5.jpg"></a>
+          
+          </span> </div>
+      </div>
+    </div>
+
+    <div class="m plist">
+      <div class="tab-arrow" style="left: 0px; "><b></b></div>
+       <!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+       {if $smarty.foreach.foo.iteration < 6}
+       {if $smarty.foreach.foo.iteration eq 1}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration} curr">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content"> 
+          <!-- ad start -->
+          <div class="slide" id="cat_slide_{$goods_cat.id}">
+            <div class="slide-itemswrap">
+              <div class="slide-items">
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告1'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告2'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告3'}</div>
+                <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品大广告4'}</div>
+              </div>
+            </div>
+            <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span> <span class=""><b></b></span></div>
+          </div>
+          <!-- ad end -->
+          <ul class="lh style1">
+           <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+           {if $smarty.foreach.foo2.iteration < 10}
+            <li class="fore{$smarty.foreach.foo2.iteration}">
+              <div class="p-img" style="opacity: 1; "> <a href="{$goods.url}" target="_blank" title="{$goods.goods_name}"><img width="100" height="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a href="{$goods.url}" target="_blank" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span style="display:block;height:1.5em;overflow:hidden;">{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+            {/if}
+             <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {else}
+      <div class="tab-item sm sm2 fore{$smarty.foreach.foo.iteration}">
+        <div class="smt">
+          <h3>{$goods_level2.name}</h3>
+        </div>
+        <div class="smc" data-widget="tab-content">
+          <ul class="lh style3">
+          <!-- {foreach from=$goods_level2.goods item=goods name=foo2} -->
+            <li class="fore1">
+              <div class="p-img ld"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}"><img height="100" width="100" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+              <div class="p-name"><a target="_blank" href="{$goods.url}" title="{$goods.goods_name}">{$goods.short_name}</a></div>
+              <div class="p-price"><span>{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span></div>
+            </li>
+           <!-- {/foreach} -->
+          </ul>
+        </div>
+      </div>
+      {/if}
+      {/if}
+       <!--{/foreach}-->
+   
+    </div>
+    <!-- ad start -->
+    <div class="sm sm1 brands">
+      <div class="smt">
+        <h3 style="text-indent:145px;">推荐品牌</h3>
+        <div class="extra"></div>
+      </div>
+      <div class="smc">
+        <ul class="lh">
+        <!-- {foreach from=$goods_cat.brands item=brands name=foo} -->  
+          <li class="fore{$smarty.foreach.foo.iteration}"><a target="_blank" href="{$brands.url}">{if $brands.logo neq "data/brandlogo/"}<img height="35" width="98" src="{$brands.logo}">{else}{$brands.brand_name}{/if}</a></li>
+          <!-- {/foreach} -->
+        </ul>
+      </div>
+    </div>
+    <div class="fr da209x180">
+      <div class="slide" id="brand_slide_{$goods_cat.id}">
+        <div class="slide-itemswrap">
+          <div class="slide-items">
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告1'}</div>
+            <div>{insert name='ads_pro' cat_name=$goods_cat.name type='分类下商品小广告2'}</div>
+          </div>
+        </div>
+        <div class="slide-controls"> <span class="curr"><b></b></span> <span class=""><b></b></span></div>
+      </div>
+    </div>
+    <input type="hidden" name="cat_goods" class="cat_goods" value="{$goods_cat.id}"/>
+    <div class="clear"></div>
+  </div>
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+</div>
+
+<div class="w">
+<div class="m m3 club" id="share">
+<div class="mt">
+<h2>热门晒单</h2>
+<div class="extra"></div>
+</div>
+<div class="mc">
+<ul>
+<!--{foreach from=$index_comments item=comments name=no}-->
+	<!--{if $smarty.foreach.no.iteration < 7}-->
+<li style="height: 60px; display: list-item; ">
+  <div class="p-img ld">
+    <a href="{$comments.url}" target="_blank" title="{$comments.goods_name}"><img width="50" height="50" alt="{$comments.goods_name}" src="{$comments.goods_thumb}"><b class="ci cix1"></b></a>  </div>
+  <div class="p-name"><a href="{$comments.url}" target="_blank" title="{$comments.goods_name}">{$comments.goods_name}</a></div>
+  <div class="p-detail"><a href="{$comments.url}" target="_blank">{$comments.content}</a></div>
+</li>
+<!-- {/if} -->
+<!-- {/foreach} -->
+
+</ul>
+</div>
+</div>
+<div class="m m3 club" id="index_comment">
+<div class="mt">
+<h2>热门晒单</h2>
+<div class="extra"></div>
+</div>
+<div class="mc">
+<ul>
+<!--{foreach from=$index_comments item=comments name=no}-->
+	<!--{if $smarty.foreach.no.iteration > 6 && $smarty.foreach.no.iteration < 13}-->
+<li style="height: 60px; display: list-item; ">
+  <div class="p-img ld">
+    <a href="{$comments.url}" target="_blank" title="{$comments.goods_name}"><img width="50" height="50" alt="{$comments.goods_name}" src="{$comments.goods_thumb}"><b class="ci cix1"></b></a>  </div>
+  <div class="p-name"><a href="{$comments.url}" target="_blank" title="{$comments.goods_name}">{$comments.goods_name}</a></div>
+  <div class="p-detail"><a href="{$comments.url}" target="_blank">{$comments.content}</a></div>
+</li>
+<!-- {/if} -->
+<!-- {/foreach} -->
+</ul>
+</div>
+</div>
+<!-- #BeginLibraryItem "/library/new_articles.lbi" --><!-- #EndLibraryItem -->
+<div class="m" id="subscription" clstag="homepage|keycount|home2013|36a">
+<div class="mt">
+<h2>订阅促销信息</h2>
+</div>
+<!-- #BeginLibraryItem "/library/email_list.lbi" --><!-- #EndLibraryItem -->
+</div>
+<span class="clr"></span>
+</div>
+
+<!-- #BeginLibraryItem "/library/help.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

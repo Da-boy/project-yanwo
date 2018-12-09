@@ -1,0 +1,56 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+     <a onClick="javascript:history.go(-1);">
+       <span></span>
+       <i></i>
+     </a>
+   </div>
+  <h1>我的积分</h1>
+</header>
+<div class="header-px"></div>
+<div>
+	 <ul class="jifen-head">
+            <li class="jifen-head1"><img src="{$info.headimgurl}" /></li>
+            <li class="jifen-head2">
+                <h1>{$info.nickname}</h1>
+                <div>
+                    <img src="themes/99yanwo/image/jifen/rang.png">
+                    <h2>{$rank_name}</h2>
+                    <div class="clearfix"></div>
+                </div>
+            </li>
+            <li class="jifen-head3">
+                <h3>我的积分</h3>
+                <h5>{$info.integral}</h5>
+            </li>
+        </ul>
+        <ul class="jifen-content">
+            <li class="hot-img">
+                <img src="themes/99yanwo/image/jifen/hot.png" alt="" class="hot-icon">
+                <img src="themes/99yanwo/image/jifen/img1.jpg" alt="">
+                <p class="p1">IPHONE7</p>
+            </li>
+            <li>
+                <img src="themes/99yanwo/image/jifen/img2.jpg" alt="">
+                <p>IPAD AIR 2</p>
+            </li>
+            <li>
+                <img src="themes/99yanwo/image/jifen/img3.jpg" alt="">
+                <p>MAC</p>
+            </li>
+        </ul>
+        <div style="padding-bottom:3rem;">
+            <a class="jifen-bottom"  href="{:url('user/rule')}">
+                积分规则
+            </a>
+        </div>
+
+<!-- #BeginLibraryItem "/library/nav_footer.lbi" --><!-- #EndLibraryItem -->
+</div>
+<script>
+$(".nav-footer4 a").addClass("bot-icon7");
+</script>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

@@ -1,0 +1,77 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+     <a onClick="javascript:history.go(-1);">
+       <span></span>
+       <i></i>
+     </a>
+   </div>
+  <h1>我的余额</h1>
+</header>
+<div class="header-px"></div>
+<div class="blackbox">
+        <!--<form>-->
+            <div class="money-number">
+                <!--<input placeholder="请输入序列号" class="money-input" name="" id="num" type="text" />-->
+                <input placeholder="请输入兑换码" class="money-input" name="" id="code" type="text" />
+                <div class="money-submit">
+                    <input value="兑换" type="submit" id="exchange">
+                    <a class="money-close">关闭</a>
+                </div>
+            </div>
+        <!--</form>-->
+</div>
+<div>
+    <div class="money-bg">
+        <h4>燕窝余额</h4>
+        <h1><span>￥</span>{$money}</h1>
+    </div>
+    <p class="money-p">余额暂不支持提现</p>
+    <input value="礼品卡兑换" type="button" class="money-btn">
+    <script>
+        $('.money-btn').click(function(){
+            $('.blackbox').show();
+        });
+        $('.money-close').click(function(){
+            $('.blackbox').hide();
+        });
+
+        $('#exchange').click(function(){
+            //获取用户输入的信息
+            //var card_num = $('#num').val();
+            var card_code = $('#code').val();
+
+            $.ajax({
+                url:'index.php?m=default&c=user&a=new_card_exchange_money',
+                type:'POST', //GET
+                async:true,    //或false,是否异步
+                data:{
+                    //card_num:card_num,
+                    card_code:card_code
+                },
+                timeout:5000,    //超时时间
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success:function(data){
+                if(data.error ==true){
+                    alert(data.message);
+                    location.reload();
+                }else {
+                    alert(data.message);
+                }
+
+
+                },
+                error:function(xhr,textStatus){
+                    console.log('错误')
+                },
+                complete:function(){
+                    console.log('结束')
+                }
+            })
+        });
+    </script>
+    <!-- #BeginLibraryItem "/library/nav_footer.lbi" --><!-- #EndLibraryItem -->
+</div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

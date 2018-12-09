@@ -1,0 +1,56 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+     <a onClick="javascript:history.go(-1);">
+       <span></span>
+       <i></i>
+     </a>
+   </div>
+  <h1>套餐卡</h1>
+</header>
+<div class="header-px"></div>
+<div class="user-card">
+    <!--{if isset($card_row)}-->
+            <table class="uCard-table">
+                {foreach from=$card_row item=card key=key}
+                <tr>
+                    <td style="width:20%;text-align:center;">
+                        <img src="themes/99yanwo/image/user/card-list.png" class="card-listImg">
+                    </td>
+                    <td style="width:8%;text-align:center;"><div class="card-wire"></div></td>
+                    <td>
+                        <ul>
+                            <li>订单号：{$card.order_sn}</li>
+                            <li class="card-list1">卡名：{$card.goods_name}</li>
+                            <li class="card-list2">
+                                <p>已送：{$card.send_number}瓶</p>
+                                <p>剩余：{$card.remain_num}瓶</p>
+                            </li>
+                            <!--{if !empty($card.last_time)}-->
+                                <li class="card-list3">
+                                    <p>上次送达时间：{$card.last_time}</p>
+                                </li>
+                            <!--{/if}-->
+                        </ul>
+                    </td>
+                </tr>
+                {/foreach}
+            </table>
+        <a class="user-cardBtn" href="{:url('user/card_gq')}">查看过期套餐卡</a>
+    <!--{else}-->
+    <div class="card-noBg">
+        <img src="themes/99yanwo/image/user/card-no.png">
+        <p>当前没有可用的套餐卡</p>
+        <a class="user-sell" href="{:url('sell/index')}">立即购买</a>
+        <a class="user-cardBtn" href="{:url('user/card_gq')}">查看已送完燕窝</a>
+    </div>
+    <!--{/if}-->
+
+</div>
+<script>
+$("body").css("background-color","#f5f5f5");
+</script>
+<!-- #BeginLibraryItem "/library/nav_footer.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

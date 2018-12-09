@@ -1,0 +1,40 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<form action="/mobile/index.php?m=default&amp;c=user&amp;a=service" method="post" enctype="multipart/form-data" name="formMsg" onsubmit="return submitMsg()">
+<input name="msg_type" type="hidden" value="2">
+<input name="msg_title" type="hidden" value="百城合伙人招募咨询">
+<div class="blackbox-city">
+    <div class="city-tanchu">
+        <img src="themes/99yanwo/image/sell/join-title.png" alt="title" class="city-title">
+        <ul>
+            <li class="city-icon1">
+                <span></span>
+                <input name="name" type="text" class="" placeholder="请输入您的名字">
+            </li>
+            <li class="city-icon2">
+                <span></span>
+                <input name="msg_telephone" type="text" class="" placeholder="请输入您的联系电话">
+            </li>
+            <li class="city-icon3">
+                <span></span>
+                <textarea name="msg_content" placeholder="请输入您的疑问"></textarea>
+            </li>
+        </ul>
+        <input class="city-sub" type="submit" value="提交申请">
+        <p>（免费咨询，提交后工作人员会与您联系解决您的疑问）</p>
+    </div>
+</div>
+</form>
+<div class="city_bg">
+    <img src="themes/99yanwo/image/sell/city.jpg" style="" />
+    <a></a>
+</div>
+<script>
+    $('.city_bg a').click(function(){
+        $('.blackbox-city').show();
+    });
+    $('.city-sub').click(function(){
+        $('.blackbox-city').hide();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<link rel="stylesheet" href="__TPL__/css/swiper.min.css">
+<form action="javascript:bool =1;addToCart_quick(151)" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" class="demoform">
+<div class="huadong" style="height: 100%;background-color: #e7d8d1;padding-top: 20px;" id="huadong">
+	<!-- Swiper -->
+	<div class="swiper-container" >
+		<div class="swiper-wrapper">
+			<div class="swiper-slide"><img src="__TPL__/image/song/xinyiimg1.jpg"></div>
+			<div class="swiper-slide"><img src="__TPL__/image/song/xinyiimg2.jpg"></div>
+			<div class="swiper-slide"><img src="__TPL__/image/song/xinyiimg3.jpg"></div>
+			<div class="swiper-slide"><img src="__TPL__/image/song/xinyiimg4.jpg"></div>
+			<div class="swiper-slide"><img src="__TPL__/image/song/xinyiimg5.jpg"></div>
+
+		</div>
+		<div class="xinyi-content" style="z-index:99;">
+			<div class="row1"><img src="__TPL__/image/song/to.png"><input type="text" name="toname" placeholder="姓名、昵称" class="xinyi-input" /> </div>
+			<textarea rows="4" cols="26" name="tocontent" placeholder="看着花，听着音乐 ，品着燕窝。心 ，宁静得幽远。"></textarea>
+			<p><input name="fromname" readonly value="{$info.nickname}" style="background-color:rgba(0,0,0,0);border:0;text-align:right"/></p>
+		</div>
+	</div>
+	<div class="swiper-container" style="margin-top: 2.1rem;box-shadow: none;">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide">古风</div>
+			<div class="swiper-slide">秋日</div>
+			<div class="swiper-slide" >生日</div>
+			<div class="swiper-slide">满月</div>
+			<div class="swiper-slide" >Eyes on you</div>
+		</div>
+	</div>
+	<!-- Add Arrows -->
+
+	<div class="swiper-button-next"></div>
+	<div class="swiper-button-prev"></div>
+	<!-- hidden -->
+	<input name="cardid" type="hidden" value="2" readonly class="swipe-input">
+	<!-- back -->
+	<div class="xinyi-button" style="width: 3rem;font-size: 0.7rem;line-height: 1.6rem;color: white;margin: 5rem auto;
+    background-color: #ff2741;
+    text-align: center;
+    border-radius: 1.5rem;">返回</div>
+</div>
+<div class="song-main">
+<div>
+	<img src="__TPL__/image/song/banner-img.jpg">
+</div>
+
+<p class="song-sell-p">收礼人可任选一下口味燕窝享用</p>
+<div class="song-sell-sell">
+	<input type="radio" name="song_1" value="44" id="spec_value_44" checked="" >
+	<label for="spec_value_44">冰糖燕窝 (推荐)</label>
+	<input type="radio" name="song_1" value="45" id="spec_value_45" >
+	<label for="spec_value_45">原味燕窝</label>
+	<input type="radio" name="song_1" value="46" id="spec_value_46" >
+	<label for="spec_value_46">蜂蜜燕窝</label>
+	<input type="hidden" name="spec_list" value="2">
+</div>
+<div style="height: 10px;"></div>
+<table id="tabl" style="margin: 0 auto;">
+	<tr>
+		<td>
+			<div class="song_main_bottom">
+				<input type="text" class="song_main_bottom1" value="" readonly="readonly"/>
+				<input name="number" id="goods_number" value="1"  class="song_main_bottom2"  readonly="readonly" maxlength="3" />
+				<input type="text"  class="song_main_bottom3" value="" readonly="readonly" />
+				<input class="sell_main_p2" value="159" style="display: none"/>
+			</div>
+		</td>
+	</tr>
+</table>
+
+<p class="song-sell-p2" style="font-size: 0.8rem;margin-top: 20px;">免运费</p>
+<p class="song-sell-p2">选好燕窝，去填写你的心意卡片吧~</p>
+<a class="song-sell-p" style="margin-top: 5px">写心意卡</a>
+<div class="song-fanwei">
+	<div class="left"><img src="__TPL__/image/song/wenhao.png"/></div>
+	<div class="right">部分地区可配送，点击查看请确认您的朋友在服务范围哦</div>
+</div>
+</div>
+<div class="sell_bottom">
+	<div class="sell_bottom1"><img src="__TPL__/image/sell/carflow.png" class="sell_bottom1img1" ><img src="__TPL__/image/sell/cart_icon.png" class="sell_bottom1img2" /><div class="sell_circle" id="total_sge" style="    right: -.2rem;">1</div></div>
+	<p class="sell_bottom2"><span id="total_sfen">0</span>份</p>
+	<p class="sell_bottom3">￥<span id="total_s">0.00</span></p>
+	<input class="sell_bottom4" type="submit" value="选好了"  readonly="readonly">
+	<div class="clearfix"></div>
+</div>
+</form>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+<script type="text/javascript" src="__TPL__/js/swiper.min.js"></script>
+<script type="text/javascript">
+	$(".swiper-button-next").click(function(){
+		var t=$(this).parent().find('input[class*=swipe-input]');
+		t.val(parseInt(t.val())+1) ;
+	}) ;
+	$(".swiper-button-prev").click(function(){
+		var t=$(this).parent().find('input[class*=swipe-input]');
+		t.val(parseInt(t.val())-1);
+	});
+</script>
+<script type="text/javascript">
+
+	<!--购物车-->
+
+	$(function(){
+		$(".song_main_bottom3").click(function(){
+			var t=$(this).parent().find('input[class*=song_main_bottom2]');
+			t.val(parseInt(t.val())+1) ;
+			setTotal();
+		}) ;
+		$(".song_main_bottom1").click(function(){
+			var t=$(this).parent().find('input[class*=song_main_bottom2]');
+			t.val(parseInt(t.val())-1);
+			if(parseInt(t.val())<1){
+				t.val(0);
+				$(".sell_bottom1").find(".sell_bottom1img1").show().siblings().hide();
+			}
+			setTotal();
+		});
+		function setTotal(){
+			var s=0;
+			var e=0;
+			$("#tabl td").each(function(){
+				s+=parseInt($(this).find('input[class*=song_main_bottom2]').val());
+				e+=parseInt($(this).find('input[class*=song_main_bottom2]').val())*parseFloat($(this).find('input[class*=sell_main_p2]').val().replace(/[^0-9]/ig, ""));
+			});
+			if(s>0){
+				$(".sell_bottom1").find(".sell_bottom1img2,.sell_circle").show().siblings(".sell_bottom1img1").hide();
+				$(".sell_bottom4").attr("type","submit");
+
+			}
+			else{
+				$(".sell_bottom4").attr("type","text");
+
+				$(".sell_bottom1").find(".sell_bottom1img1").show().siblings().hide();
+			}
+			$("#total_sge").html(s.toFixed(0));
+			$("#total_sfen").html(s.toFixed(0));
+			$("#total_s").html(e.toFixed(2));
+
+		}
+		setTotal();
+
+	}) ;
+</script>
+<script>
+	var swiper = new Swiper('.swiper-container', {
+		nextButton: '.swiper-button-next',
+		prevButton: '.swiper-button-prev'
+
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		document.getElementById('huadong').style.display = "none";
+		$(".song-sell-p").click(
+				function(){
+					$(".song-main").hide();
+					$(".huadong").show();
+				}
+		);
+		$(".xinyi-button").click(
+				function(){
+					$(".song-main").show();
+					$(".huadong").hide();
+				}
+		);
+	})
+
+</script>
+</body>
+</html>

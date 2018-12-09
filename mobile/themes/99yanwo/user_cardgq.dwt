@@ -1,0 +1,53 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+     <a onClick="javascript:history.go(-1);">
+       <span></span>
+       <i></i>
+     </a>
+   </div>
+  <h1>套餐卡（过期）</h1>
+</header>
+<div class="header-px"></div>
+<div class="user-cardgq">
+
+    <!--{if isset($card_row)}-->
+            <table class="uCard-table">
+                {foreach from=$card_row item=card key=key}
+                <tr>
+                    <td style="width:16%;text-align:center;">
+                        <img src="themes/99yanwo/image/user/cardgq-list.png" class="card-listImg">
+                    </td>
+                    <td style="width:8%;text-align:center;"><div class="card-wire"></div></td>
+                    <td>
+                        <ul>
+                            <li>订单号：{$card.order_sn}</li>
+                            <li class="card-list1">
+                                卡名：{$card.goods_name}
+                                <span>共{$card.send_number}瓶</span>
+                            </li>
+                            <li class="cardgq-list2">
+                                <p>购买时间：{$card.add_time}</p>
+                                <p>最后一次送货时间：{$card.last_time}</p>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                {/foreach}
+            </table>
+            <!--{else}-->
+            <div class="card-noBg">
+               <img src="themes/99yanwo/image/user/card-no.png">
+               <p>您暂无已完成的套餐卡商品</p>
+               <a class="user-sell" href="{:url('sell/index')}">立即购买</a>
+            </div>
+    <!--{/if}-->
+
+</div>
+<script>
+$("body").css("background-color","#f5f5f5");
+</script>
+<!-- #BeginLibraryItem "/library/nav_footer.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+     <a onClick="javascript:history.go(-1);">
+       <span></span>
+       <i></i>
+     </a>
+   </div>
+  <h1>优惠券</h1>
+</header>
+<div class="header-px"></div>
+<div class="user_youhui_bg">
+    <div class="user_youhui_content">
+         <!-- {if $isdisplay} 是否有优惠券 -->
+        <div>
+            <div class="user_youhui_content_img"><img src="__TPL__/image/user/youhui_icon1.png"/></div>
+            <p  class="user_youhui_content-p">当前没有可用优惠券</p>
+        </div>
+         <!-- {/if} 是否有优惠券 -->
+        <div class="youhui-content">
+            <!-- {foreach from=$bonus_list item=bonus} -->
+            <ul>
+                <li class="youhui-icon">满减券</li>
+                <li class="youhui-li1">
+                    <p><span>￥</span>{$bonus.bonus_money_formated}</p>
+                </li>
+                <li class="youhui-li2">
+                    <p>99度燕窝{$bonus.bonus_money_formated}元优惠券</p>
+                    <p>订单满{$bonus.min_goods_amount}元</p>
+                    <p>有效期至：{$bonus.use_end_date}</p>
+                </li>
+            </ul>
+            <!-- {/foreach} -->
+        </div>
+        <a href="{:url('user/bonusgq')}" class="ck-youhuigq">查看过期优惠券</a>
+    </div>
+<!-- #BeginLibraryItem "/library/nav_footer.lbi" --><!-- #EndLibraryItem -->
+</div>
+<script language="javascript">
+$("body").css("background-color","#f0f0f0");
+var oUl = $(".youhui-content ul").length;
+//alert(oUl);
+if(oUl == 0){
+$(".youhui-content").css("min-height","0");
+}
+</script>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body></html>

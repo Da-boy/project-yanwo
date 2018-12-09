@@ -1,0 +1,93 @@
+<!-- $Id: bonus_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<form method="POST" action="bonus.php?act=batch&bonus_type={$smarty.get.bonus_type}" name="listForm">
+<!-- start user_bonus list -->
+<div class="list-div" id="listDiv">
+{/if}
+
+  <table cellpadding="3" cellspacing="1">
+    <tr>
+      <th>
+        <!--<input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox">-->
+        <a href="javascript:listTable.sort('bonus_id'); ">{$lang.record_id}</a>{$sort_bonus_id}</th>
+      <th><a href="javascript:listTable.sort('bonus_sn'); ">{$lang.bonus_sn}</a>批次id</th>
+      <th><a href="javascript:listTable.sort('type_name'); ">{$lang.bonus_type}</a>序列号</th>
+      <th><a href="javascript:listTable.sort('order_id'); ">{$lang.order_id}</a>兑换码</th>
+      <th><a href="javascript:listTable.sort('user_id'); ">{$lang.user_id}</a>使用开始时间</th>
+      <th><a href="javascript:listTable.sort('used_time'); ">{$lang.used_time}</a>使用结束时间</th>
+      <th><a href="javascript:listTable.sort('emailed'); ">{$lang.emailed}</a>可抵金额</th>
+      <th><a href="javascript:listTable.sort('emailed'); ">{$lang.emailed}</a>余额</th>
+      <th><a href="javascript:listTable.sort('emailed'); ">{$lang.emailed}</a>使用会员</th>
+      <th><a href="javascript:listTable.sort('emailed'); ">{$lang.emailed}</a>使用时间</th>
+      <!--<th>{$lang.handler}</th>-->
+    </tr>
+    {foreach from=$bonus_list item=bonus}
+    <tr>
+      <td><span><!--<input value="{$bonus.bonus_id}" name="checkboxes[]" type="checkbox">-->{$bonus.card_id}</span></td>
+      <td>{$bonus.batch_id}</td>
+      <td>{$bonus.serial_num}</td>
+      <td>{$bonus.redeem_code}</td>
+      <td>{$bonus.use_start_time}</td>
+      <td>{$bonus.use_end_time}</td>
+      <td>{$bonus.card_money}</td>
+      <td>{$bonus.remaining_money}</td>
+      <td>
+        {if $$bonus.user_id}
+          {$bonus.user_id}
+        {else}
+          未使用
+        {/if}
+      </td>
+      <td>
+        {if $bonus.used_time}
+          {$bonus.used_time}
+        {else}
+          未使用
+        {/if}
+      </td>
+      <!--<td align="center">
+        <a href="javascript:;" onclick="listTable.remove({$bonus.bonus_id}, '{$lang.drop_confirm}', 'remove_bonus')">{$lang.remove}</a>
+        <a href="javascript:;" onclick="listTable.remove({$bonus.bonus_id}, '{$lang.drop_confirm}', 'remove_bonus')">激活</a>
+        {if $show_mail and $bonus.order_id eq 0 and $bonus.email}<a href="bonus.php?act=send_mail&bonus_id={$bonus.bonus_id}">{$lang.send_mail}</a>{/if}</td>
+    </tr>-->
+    {foreachelse}
+    <tr><td class="no-records" colspan="11">{$lang.no_records}</td></tr>
+    {/foreach}
+  </table>
+
+  <table cellpadding="4" cellspacing="0">
+    <tr>
+      <td><input type="submit" name="drop" id="btnSubmit" value="{$lang.drop}" class="button" disabled="true" />
+      {if $show_mail}<input type="submit" name="mail" id="btnSubmit1" value="{$lang.send_mail}" class="button" disabled="true" />{/if}</td>
+      <td align="right">{include file="page.htm"}</td>
+    </tr>
+  </table>
+
+{if $full_page}
+</div>
+<!-- end user_bonus list -->
+</form>
+
+<script type="text/javascript" language="JavaScript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+  listTable.query = "query_bonus";
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    // 开始检查订单
+    startCheckOrder();
+    document.forms['listForm'].reset();
+  }
+  {/literal}
+</script>
+{include file="pagefooter.htm"}
+{/if}

@@ -1,0 +1,171 @@
+<header id="header">
+  <div class="header_l header_return">
+    <a  href="{:url('sell/index')}">
+        <span></span>
+        <i></i>
+    </a>
+  </div>
+  <h1>{$lang.shopping_cart}</h1>
+</header>
+<div class="header-px"></div>
+<!-- {if $goods_list } -->
+<div class="flow-bg" style="display:block;">
+    <form>
+        <ul class="flow-all">
+            <li>
+            <!--{if $total.is_all_check==0}-->
+                <input type="checkbox" id="flow1" class="allselect" checked  value="1" onclick="change_check_status_all()">
+            <!--{else}-->
+                <input type="checkbox" id="flow1" class="allselect"  value="0" onclick="change_check_status_all()">
+            <!--{/if}-->
+                <label for="flow1" class="flow-label1"></label>
+            </li>
+            <li>3小时达</li>
+            <li style="color:#f0091e;float: right;margin-right: 1rem;">免运费</li>
+        </ul>
+        <ul class="flow-cart">
+ <!-- {foreach from=$goods_list item=goods key=k} -->
+            <li>
+                <div class="flow-radio">
+<!--{if $goods.check_status eq 0}-->
+                    <input type="checkbox" id="rec_{$goods.rec_id}" checked="true"  name="rec_id" value="{$goods.rec_id}" onClick="change_check_status({$goods.rec_id},{$goods.check_status})">
+<!--{else}-->
+                    <input type="checkbox" id="rec_{$goods.rec_id}"  name="rec_id" value="{$goods.rec_id}" onClick="change_check_status({$goods.rec_id},{$goods.check_status})">
+<!--{/if}-->                    
+<label for="rec_{$goods.rec_id}" class="flow-label"></label>
+                </div>
+                <a class="flow-content" href="{:url('goods/index',array('id'=>$this->_var['goods']['goods_id']))}">
+                    <div class="flow-img"><img src="{$goods.goods_thumb}" alt=""></div>
+                    <ul>
+                        <li class="flow-p1">{$goods.goods_name|escape:html}</li>
+                        <li class="flow-p2">限量优惠</li>
+                        <li class="flow-p3">原价<span>{$goods.market_price}</span><div class="flow-though"></div></li>
+                        <li class="flow-p4">抢鲜价<span>{$goods.goods_price}</span><!--<input type="text" value="99" readonly class="flow-value">--></li>
+                    </ul>
+                </a>
+                <div class="flow-card">
+<!-- {if $goods.goods_id gt 0 && $goods.is_gift eq 0 && $goods.parent_id eq 0} 普通商品可修改数量 -->
+<!--{if $goods.goods_id eq 145 || $goods.goods_id eq 153}-->
+                        <input type="text" class="flow_bottom1" value="" readonly="readonly" onClick="change_goods_number('1',{$goods.rec_id})" />
+                        <input type="hidden" id="back_number{$goods.rec_id}" value="{$goods.goods_number}" />
+                        <input name="{$goods.rec_id}"  id="goods_number{$goods.rec_id}" value="{$goods.goods_number}"  class="flow_bottom2" readonly="readonly" />
+                        <input type="text" class="flow_bottom3 sell-bot-addClass" value="" readonly="readonly"/>
+<!--{else}-->
+                        <input type="text" class="flow_bottom1" value="" readonly="readonly" onClick="change_goods_number('1',{$goods.rec_id})" />
+                        <input type="hidden" id="back_number{$goods.rec_id}" value="{$goods.goods_number}" />
+                        <input name="{$goods.rec_id}"  id="goods_number{$goods.rec_id}" value="{$goods.goods_number}"  class="flow_bottom2" readonly="readonly" />
+                        <input type="text" class="flow_bottom3" value="" readonly="readonly" onClick="change_goods_number('3',{$goods.rec_id})"/>
+<!--{/if}-->
+<!-- {else} -->
+<input type="text" class="flow_bottom2" readonly value="{$goods.goods_number}"/>
+ <!-- {/if} --> 
+                </div>
+            </li>
+ <!-- {/foreach} -->
+        </ul>
+    </form>
+    <div class="flow-tol">
+        <ul>
+            <li>
+                <span>限时优惠价</span>
+                <span class="flow-price total" id="goods_subtotal">{$total.goods_price}</span>
+            </li>
+            <li>
+                <span>已选商品数量</span>
+                <span class="flow-price total" id="total_number">{$total.total_number}</span>
+            </li>
+            <li>
+                <span>商品实付</span>
+                <span class="flow-price total" id="goods_subtotal1">{$total.goods_price}</span>
+            </li>
+            <li>
+                <span>运费</span>
+                <span class="flow-price">免邮</span>
+            </li>
+        </ul>
+        <p class="flow-p">合计<span class="total" id="goods_subtotal2">{$total.goods_price}</span></p>
+    </div>
+    <div class="flow-fix">
+        <ul>
+            <li class="flow-tot">
+            <!--{if $total.is_all_check==0}-->
+                <input type="checkbox" id="flow2" checked  value="1" onclick="change_check_status_all()">
+            <!--{else}-->
+                <input type="checkbox" id="flow2" value="0" onclick="change_check_status_all()">
+            <!--{/if}-->
+                <label for="flow2" class="flow-label1" style="margin-top: 0.3rem"></label>
+            </li>
+            <li class="flow-select">全选</li>
+            <li>
+                <p>合计<span class="total" id="goods_subtotal3">{$total.goods_price}</span></p>
+                <div class="total-more">限时优惠价,免邮</div>
+            </li>       
+            <li style="float: right;background-color:#f0091e;">
+                <a href="{:url('flow/checkout')}" type="button" class="flow-sub">{$lang.check_out}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+  <!-- {else} -->
+<div class="nocart" style="display:block;">
+	<img src="themes/99yanwo/image/sell/cart-no.png" />
+    <p>你还没有添加任何商品</p>
+    <!-- #BeginLibraryItem "/library/nav_footer.lbi" --><!-- #EndLibraryItem -->
+</div>
+  <!-- {/if} -->
+<script src="__TPL__/js/jquery.1.4.2-min.js" type="text/javascript"></script>
+<script src="__TPL__/js/Calculation.js" type="text/javascript"></script>
+<script type="text/javascript">
+/*
+*变更单个购物车商品状态的方法
+*/
+function change_check_status(id,type){
+  var rec=document.getElementById('rec_'+id);
+//var rec_status=rec.getAttribute("checked");
+//console.log(rec_status);
+if(type==0){
+//修改状态为，未选择
+$.get('index.php?m=default&c=flow&a=change_status&type=1&id='+id, {
+	}, function(data) {
+		if(data.status==true){
+           // rec.setAttribute("checked",false);
+            var cart_url="index.php?m=default&c=flow&a=cart";
+            location.href = cart_url;
+}else{
+           rec.setAttribute("checked",true); 
+}
+	}, 'json'); 
+
+}else{
+//修改状态为已选择
+$.get('index.php?m=default&c=flow&a=change_status&type=0&id='+id, {
+	}, function(data) {
+		if(data.status==true){
+            rec.setAttribute("checked",true);
+            var cart_url="index.php?m=default&c=flow&a=cart";
+            location.href = cart_url;
+}else{
+           //rec.setAttribute("checked",false); 
+}
+	}, 'json'); 
+}
+}
+/*
+*变更购物车所有商品状态的方法
+*/
+function change_check_status_all(){
+ var type=document.getElementById('flow1').getAttribute('value');
+$.get('index.php?m=default&c=flow&a=change_status_all&type='+type, {
+	}, function(data) {
+	if(data.status==true){
+            var cart_url="index.php?m=default&c=flow&a=cart";
+            location.href = cart_url;
+}else{
+          var cart_url="index.php?m=default&c=flow&a=cart";
+            location.href = cart_url;
+}
+	}, 'json'); 
+}
+
+
+</script>

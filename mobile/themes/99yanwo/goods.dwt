@@ -1,0 +1,284 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+    <a onclick="javascript:history.go(-1);">
+        <span></span>
+        <i></i>
+    </a>
+  </div>
+  <h1>
+	99度现炖及時送燕窝
+  </h1>
+</header>
+<div class="header-px"></div>
+<div id="addBox" style="display: none;">        </div>
+<div class="blackbox">
+    <div class="inner"> 
+        <div class="cartitle">添加成功</div>
+        <div class="content_name">
+            <p>商品已成功加入购物车</p>
+        </div>
+        <div id="mcart_confirm_popup_btns" class="btn_box">
+            <a class="btn btn_cancel">再逛逛</a>
+            <a onClick="addToCart_quick({$goods.goods_id})" class="btn btn_confirm">去购物车</a>
+        </div>
+    </div>
+</div>
+<!--商品图 s---> 
+<section class="goods_slider">
+  <div class="slideBox">
+    <div class="bd">
+        <div class="owl-carousel">
+            <!--{if $pictures}-->
+            <!-- {foreach from=$pictures item=picture name=no}-->
+            <!-- {if $smarty.foreach.no.iteration > 0}  -->
+            <div class="item">
+                <img src="{$picture.img_url}" alt="{$picture.img_desc}" />
+            </div>
+            <!-- {/if}-->
+            <!--{/foreach}-->
+            <!--{/if}-->
+        </div>
+    </div>
+  </div>
+  <div class="detail-price">
+    <h2 class="detail-title1">{$goods.goods_name}</h2>
+    <h5 class="detail-title2">GMP HACCP 国际质量体系双重认证</h5>
+    <!--{if $goods.is_promote and $goods.gmt_end_time } 促销--> 
+    <span class="Text">{$goods.promote_price}</span> 
+    <!--{else}--> 
+    <span class="Text" id="ECS_GOODS_AMOUNT">{$goods.shop_price_formated}</span>
+    <!--{/if}--> 
+    <!--{if $goods.is_collect eq '1'} 促销--> 
+    <!--<a class="btn-sc Yishoucang" id="collect_box" href="javascript:collect({$goods.goods_id})"><span></span></a>--> 
+    <!--{else}--> 
+    <!--<a class="btn-sc" id="collect_box" href="javascript:collect({$goods.goods_id})"><span></span></a>--> 
+    <!--{/if}--> 
+  </div>
+  <div class="detail-info">
+    <img src="themes/99yanwo/image/good/goods-logo.png">
+    <div class="detail-p">
+        <p>
+            <span style="color:#fc2c47;">掌柜说：</span>
+            选用泰王国岛屿可溯源的优质燕窝原料，采用泰王国皇室古法水洗，不使用任何化学处理方式，纯手工清洗挑毛，保持燕窝营养价值，选用进口康宁厨具和农夫山泉婴幼儿水小火慢炖均衡释放黄金燕窝酸，锁住燕窝营养不流失，晶莹剔透，纵享丝滑
+        </p>
+        <p><span class="detail-icon detail-icon1"></span>关注99度燕窝微信号：yanwo99du，有任何问题欢迎随时联系，朋友圈常常会有福利哦~</p>
+    </div>
+  </div>
+  <ul class="detail-ul">
+    <li><span class="detail-icon detail-icon2"></span>海外直采</li>
+    <li><span class="detail-icon detail-icon3"></span>PICC承保</li>
+    <li><span class="detail-icon detail-icon4"></span>极速发货</li>
+    <li><span class="detail-icon detail-icon5"></span>售后无忧</li>
+  </ul>
+  <p class="detail-xiala">继续拖动，查看图文详情</p>
+</section>
+<!--商品详情-->
+<section>
+  <div id="tab1" class="">
+    <div class="desc wrap">
+	  {if $goods.mobile_desc }
+		{$goods.mobile_desc}
+	  {else}
+		{$goods.goods_desc}
+	  {/if}
+    </div>
+  </div>
+</section>
+<div class="Secton10 Secton10-v1" style="padding-bottom:4rem;border-bottom:0;border-top:0;display:none;">
+  <section class="goodsBuy radius5" style="margin-bottom:0; padding-left:0;">
+    <input id="goodsBuy-open" type="checkbox">
+    <label class="info Info" for="goodsBuy-open">
+        <div class="ProProperty">
+          <!-- {if $goods.goods_number neq "" and $cfg.show_goodsnumber} 商品库存-->
+          <!-- {if $goods.goods_number eq 0} -->
+          {$lang.goods_number}<span>{$lang.stock_up} </span><i class="icon-arr"></i>
+          <!-- {else} -->
+          {$lang.goods_number}<span>{$goods.goods_number} {$goods.measure_unit} </span><i class="icon-arr"></i>
+          <!-- {/if} -->
+          <!-- {/if} -->
+        </div>
+    </label>
+    <label class="info Info" for="goodsBuy-open">
+        <div class="ProProperty">{$lang.please_select}：<span><!-- {foreach name=spec from=$specification item=spec key=spec_key} --><!-- {if $smarty.foreach.spec.iteration>1}--> / <!-- {/if} -->{$spec.name}<!-- {/foreach} --></span><!--<i class="icon-arr"></i>--></div>
+        <div class="selected"></div>
+    </label>
+    <form action="javascript:addToCart({$goods.goods_id})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
+      <div class="fields">
+        <ul class="ul2">
+          <!-- {* 开始循环所有可选属性 *} --> 
+          <!-- {foreach from=$specification item=spec key=spec_key} -->
+          <li>
+            <h2>{$spec.name}：</h2>
+            <div class="items"> 
+              <!-- {* 判断属性是复选还是单选 *} --> 
+              <!-- {if $spec.attr_type eq 1} --> 
+              <!-- {if $cfg.goodsattr_style eq 1} --> 
+              <!-- {foreach from=$spec.values item=value key=key} -->
+              <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice()" />
+              <label for="spec_value_{$value.id}">{$value.label}</label>
+              <!-- {/foreach} -->
+              <input type="hidden" name="spec_list" value="{$key}" />
+              <!-- {else} -->
+              <select name="spec_{$spec_key}" onchange="changePrice()">
+                <!-- {foreach from=$spec.values item=value key=key} -->
+                <option label="{$value.label}" value="{$value.id}">{$value.label} {if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if}{if $value.price neq 0}{$value.format_price}{/if}</option>
+                <!-- {/foreach} -->
+              </select>
+              <input type="hidden" name="spec_list" value="{$key}" />
+              <!-- {/if} --> 
+              <!-- {else} --> 
+              <!-- {foreach from=$spec.values item=value key=key} -->
+              <input type="checkbox" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" onclick="changePrice()" />
+              <label for="spec_value_{$value.id}"> {$value.label} [{if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if} {$value.format_price|abs}] </label>
+              <br />
+              <!-- {/foreach} -->
+              <input type="hidden" name="spec_list" value="{$key}" />
+              <!-- {/if} --> 
+            </div>
+          </li>
+          <!-- {/foreach} --> 
+          <!-- {* 结束循环可选属性 *} -->
+        </ul>
+        <ul class="quantity">
+          <h2>{$lang.number}:</h2>
+          <div class="items" style="position:relative;"> <span class="ui-number radius5"> 
+            <!-- {if $goods.goods_id gt 0 && $goods.is_gift eq 0 && $goods.parent_id eq 0} 普通商品可修改数量 -->
+            <button type="button" class="decrease" onclick="changenum(- 1)">-</button>
+            <input class="num" name="number" id="goods_number" autocomplete="off" value="1" min="1" max="{$goods.goods_number}" type="number" readonly />
+            <button type="button" class="increase" onclick="changenum(1)">+</button>
+            <!-- {else} --> 
+            {$goods.goods_number} 
+            <!-- {/if} --> 
+            </span>
+             <!-- {if $goods.goods_id eq 145} --> 
+	        <span style="position: absolute;top: 0;left: 0;"> 
+            <input value="仅限一份" type="text" readonly="readonly" style="width: 6rem;height: 31px;border: 1px solid #999;border-radius: 3px;text-align: center;font-size: 0.7rem;color: #545454;">
+            </span>
+            <!-- {/if} --> 
+          </div>
+        </ul>
+      </div>
+    </form>
+  </section>
+</div>
+<div class="tbl-type detail-tbn2">
+    <div class="tbl-cell" style="width:16%;">
+      <a href="{:url('flow/cart')}">
+          <img src="themes/99yanwo/image/good/cart.png" style="width:1.5rem;vertical-align: top;">
+          <!-- {if $cart_now_number gt 0} -->
+                  <div class="sell_circle" id="total_ge" style="display:block;">{$cart_now_number}</div>
+          <!-- {else}-->
+                  <div class="sell_circle" id="total_ge" style="display:none;">0</div>
+          <!--{/if}-->
+      </a>
+    </div>
+  <div class="tbl-cell" style="width:80%;">
+    <a  class="btn-buy">{$lang.buy_now}</a>
+  </div>
+</div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+<script type="text/javascript">
+/*头部搜索点击关闭或者弹出搜索框*/
+function showSearch( ){
+	document.getElementById("search_box").style.display="block";
+}
+function closeSearch(){
+	document.getElementById("search_box").style.display="none";
+}
+</script>
+<script type="text/javascript">
+var goods_id = {$goods_id};
+var goodsattr_style = {$cfg.goodsattr_style|default:1};
+var gmt_end_time = {$promote_end_time|default:0};
+{foreach from=$lang.goods_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+var goodsId = {$goods_id};
+var now_time = {$now_time};
+
+<!-- {literal} -->
+onload = function(){
+  changePrice();
+  fixpng();
+  try { onload_leftTime(); }
+  catch (e) {}
+}
+
+/**
+ * 点选可选属性或改变数量时修改商品价格的函数
+ */
+function changePrice()
+{
+  var attr = getSelectedAttributes(document.forms['ECS_FORMBUY']);
+  var qty = document.forms['ECS_FORMBUY'].elements['number'].value;
+  $.get('{:url("goods/price")}', {'id':goodsId,'attr':attr,'number':qty}, function(data){
+    changePriceResponse(data);
+  }, 'json');
+}
+
+/**
+ * 接收返回的信息
+ */
+function changePriceResponse(res)
+{
+  if (res.err_msg.length > 0)
+  {
+    alert(res.err_msg);
+  }
+  else
+  {
+    document.forms['ECS_FORMBUY'].elements['number'].value = res.qty;
+
+    if (document.getElementById('ECS_GOODS_AMOUNT'))
+	
+      document.getElementById('ECS_GOODS_AMOUNT').innerHTML = res.result;
+  }
+}
+// 筛选商品属性
+jQuery(function($) {
+	$(".info").click(function(){
+		$('.goodsBuy .fields').slideToggle("fast");
+	});
+})
+function changenum(diff) {
+	var num = parseInt(document.getElementById('goods_number').value);
+	var goods_number = num + Number(diff);
+	if( goods_number >= 1){
+		document.getElementById('goods_number').value = goods_number;//更新数量
+		changePrice();
+	}
+}
+<!-- {/literal} -->
+</script>
+<script language=JavaScript>   
+    $(window).scroll(function(){
+      var scrollTop = $(this).scrollTop();
+      var scrollHeight = $(document).height();
+      var windowHeight = $(this).height();
+        if((scrollTop + windowHeight) / scrollHeight >= 0.95){
+            $(".good_bg").show();
+            $('.detail-xiala').addClass("detail-xiala1");
+        }
+    });
+$(".btn-buy").click(function(){
+    $(".blackbox").show();
+});
+$(".btn_cancel").click(function(){
+    $(".blackbox").hide();
+});
+</script>
+<script type="text/javascript" src="__TPL__/js/owl.carousel.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".owl-carousel").owlCarousel({
+            center: true,
+            items : 1,
+            <!-- {if $smarty.foreach.no.iteration > 1}  -->loop:true, <!-- {/if}-->
+            dots:true,
+            autoplay:true
+        });
+    });
+</script>
+</body>
+</html>

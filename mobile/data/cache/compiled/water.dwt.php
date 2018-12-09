@@ -1,0 +1,40 @@
+<?php echo $this->fetch('library/page_header.lbi'); ?>
+<header id="header">
+  <div class="header_l header_return">
+    <a onclick="javascript:history.go(-1);">
+      <span></span>
+      <i></i>
+    </a>
+  </div>
+  <h1>关于99度燕窝</h1>
+</header>
+<div class="header-px"></div>
+<div class="water-content">
+    <!--<ul>
+        <li>
+            <h3>ORIGN PROCUREMENT</h3>
+        </li>
+        <li>
+            <h1>坐标东经99度</h1>
+        </li>
+        <li>
+            <h2>99度燕窩。选用泰国岛屿可溯源的优质燕窝原料。</h2>
+        </li>
+        <li>
+            <p>世界上10%的高品质燕窝产自泰国，泰国8%<br/>的优质燕窝都产自春蓬府天然岛屿——坐标东经99度</p>
+        </li>
+        <li>
+            <ul>
+                <li><a href="<?php echo url('flow/map');?>">1盏1码  产地溯源</a></li>
+                <li>确保天然纯正  全程可追踪</li>
+                <li>原产地保护政策</li>
+            </ul>
+        </li>
+        <li></li>
+    </ul>-->
+    <img src="themes/99yanwo/image/user/aboutus.png">
+</div>
+<?php echo $this->fetch('library/nav_footer.lbi'); ?>
+<?php echo $this->fetch('library/page_footer.lbi'); ?> 
+</body>
+</html>

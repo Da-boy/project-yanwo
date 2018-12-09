@@ -1,0 +1,37 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div  class="user_youhui_head">
+        		<h2>充值中心</h2>
+               <a onClick="javascript:history.go(-1);" class="back"><span></span></a>
+</div>
+<section class="wrap" style="border-bottom:0;">
+  <div id="leftTabBox" class="loginBox InfoBox">
+    <div class="bd">
+        <div class="table_box mt20">
+		  <div style="width:60%;margin:20px auto;"><img src="__TPL__/image/user/chongzhi_icon.png" /></div>
+           <div class="new-input-span mb15" style="width: 100%;margin: 0 auto;border-radius: 5px;border:0;">
+            	<div class="chongzhi-title">消费卡</div>
+            	<div style="width:60%;margin:0 auto;">
+                  <span class="chongzhi-span1">￥</span>
+                  <input name="number" type="text" class="chongzhi-input" value="1000" readonly >
+                  <span class="chongzhi-span2">元</span>
+                </div>
+                <p class="chongzhi-p">(充值1000元送价值159元燕窝一份)</p>
+                <table align="center" border="0" cellpadding="15" cellspacing="0"  class="radius5 cztable">
+              
+              <!-- {if $pay_online} --> 
+              <!-- 如果是线上支付则显示支付按钮 -->
+              <tr>
+                <td align="center">{$pay_online}</td>
+              </tr>
+              <!-- {/if} -->
+            </table>
+ 
+            <input type="submit" name="submit" value="确认" class="c-btn4" style="margin: 0;  letter-spacing: 5px; font-family: Microsoft YaHei;   width:100%; background-color:#ee5255;line-height: 50px;    font-size: 24px;     font-weight: bold;border:0;color:white;">
+                  
+         
+        </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

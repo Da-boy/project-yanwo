@@ -1,0 +1,48 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+     <a onClick="javascript:history.go(-1);">
+       <span></span>
+       <i></i>
+     </a>
+   </div>
+  <h1>积分规则</h1>
+</header>
+<div class="header-px"></div>
+<div>
+    <p class="jifen-rule1">
+        积分解读
+    </p>
+    <ul class="jifen-rule2">
+        <li>
+            <h2><span>关于积分:</span></h2>
+            <p>
+                积分是99度用户在购物等相关活动情况下给予的优惠，积分仅可在
+                99度使用，如用户账号暂停使用，则将取消该用户账号内积分相关
+                使用权益，积分不得兑换，不可转让。
+            </p>
+        </li>
+        <li>
+            <h2><span>如何获得:</span></h2>
+            <p>
+                积分可通过商城消费，绑定手机等方式获得，具体规则如下：
+                商城消费：交易成功后，获得实付金额1:1积分，如遇小数点，全部往前进一位
+            </p>
+        </li>
+        <li>
+            <h2><a href="{:url('flow/map')}"><span>如何使用：</span></a></h2>
+            <p>
+                目前可通过商城活动和积分兑换商品等方式使用积分
+            </p>
+        </li>
+        <li>
+            <h2><span>积分有效期：</span></h2>
+            <p>
+               积分有效期为一年 每年12.31日会清理全年积分
+            </p>
+        </li>
+    </ul>
+</div>
+
+
+</html>

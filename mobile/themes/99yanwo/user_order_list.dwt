@@ -1,0 +1,24 @@
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+    <a href="{:url('user/index')}">
+      <span></span>
+      <i></i>
+    </a>
+  </div>
+  <h1> {$lang.label_order} </h1>
+</header>
+<div class="header-px"></div>
+<section class="wrap order_list" id="J_ItemList" style="padding-bottom: 3rem;border-bottom:0;">
+  <section class="order_box padd1 radius10 single_item"></section>
+  <a href="javascript:;" class="get_more"></a>
+</section>
+<!-- #BeginLibraryItem "/library/nav_footer.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+<script type="text/javascript">
+{foreach from=$lang.merge_order_js item=item key=key}
+        var {$key} = "{$item}";
+{/foreach}
+get_asynclist("{:url('user/async_order_list',array('pay'=>$this->_var['pay'],'type'=>$this->_var['type']))}" , '__TPL__/images/loader.gif');
+</script>
+</body></html>

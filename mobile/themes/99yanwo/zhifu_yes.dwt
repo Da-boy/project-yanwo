@@ -1,0 +1,102 @@
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+
+<div class="zhifu-yes">
+	<img src="__TPL__/image/zhifu/zhifu-yes.jpg" />
+    <h1>恭喜您!支付成功！</h1>
+    <p style="display:none;"><b>64.8</b><small>个</small>燕窝积分</p>
+    <p>我们将不辱使命，尽快将您所订燕窝送达！</p>
+    <!--{if $issong} -->
+    <div class="zhifu-anniu"> 
+    		<p>发送给好友</p>
+    </div>
+    <!--{else} -->
+     <div class="zhifu-anniu"> 
+    		<a href="{:url('user/order_list')}"><img src="__TPL__/image/zhifu/anniu1.png" /></a>
+            <a href="{:url('index/index')}"><img src="__TPL__/image/zhifu/anniu2.png" /></a>
+    </div>    
+    <!--{/if} -->   
+   
+</div>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+ 
+  wx.config({
+    debug: false,
+    appId: '{$signPackage.appId}',
+    timestamp: {$signPackage.timestamp},
+    nonceStr: '{$signPackage.nonceStr}',
+    signature: '{$signPackage.signature}',
+    jsApiList: [
+      // 所有要调用的 API 都要加到这个列表中
+	  'checkJsApi',      
+      'onMenuShareAppMessage',
+      'hideAllNonBaseMenuItem',
+      'showMenuItems'      
+    ]
+  });
+  wx.ready(function () {
+    // 在这里调用 API
+	wx.checkJsApi({
+    jsApiList: [        
+		'onMenuShareAppMessage'
+    ],
+   success: function (res) {
+         //alert(JSON.stringify(res));
+         //alert(JSON.stringify(res.checkResult.getLocation));
+        if (res.checkResult.getLocation == false) {
+            alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
+            return;
+        }else{
+      
+	wx.hideAllNonBaseMenuItem({
+      success: function () {
+        //alert('已隐藏所有非基本菜单项');
+           wx.showMenuItems({
+      menuList: [        
+        'menuItem:share:appMessage' // 发送给朋友        
+      ],
+      success: function (res) {
+        //alert('已显示“阅读模式”，“分享到朋友圈”，“复制链接”等按钮');
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));
+      }
+   	 });
+    
+      }
+    });
+        		
+	wx.onMenuShareAppMessage({
+      title: '99°燕窝——互送燕窝，火热进行中！',
+      desc: '您的朋友赠送您一单燕窝，请留意查收！现煮及时送 保证燕窝最新鲜品质和口感，产自燕窝黄金三大区-泰国春蓬府！',
+      link: 'http://wap.woimai.com/mobile/index.php?m=default&c=index&a=index&fuserid='+{$fuserid},
+      imgUrl: 'http://wap.woimai.com/mobile/themes/99yanwo/image/99yw.png',
+      trigger: function (res) {
+        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+        //alert('用户点击发送给朋友');
+      },
+      success: function (res) {
+        //alert('已分享');
+        $(".blackbox").hide();
+        window.location.href='{:url('index/index')}';
+      },
+      cancel: function (res) {
+        //alert('已取消');
+      },
+      fail: function (res) {
+        //alert(JSON.stringify(res));
+      }
+    });
+    
+	
+		
+		}
+    }
+});
+
+  });
+</script>
+
+
+</body>
+</html>

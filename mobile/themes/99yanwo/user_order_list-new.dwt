@@ -1,0 +1,170 @@
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+    <a onclick="javascript:history.go(-1);">
+      <span></span>
+      <i></i>
+    </a>
+  </div>
+  <h1> {$lang.label_order} </h1>
+</header>
+<div class="header-px"></div>
+<section class="wrap order_list" id="J_ItemList">
+  <section class="order_box padd1 radius10 single_item">
+   <div class="InfoBox" style="padding:0;">
+          <table cellspacing="0" cellpadding="5" width="100%" border="0" class="ectouch_table" style="border-bottom: 6px #f0f0f0 solid;">
+            <tbody>
+              <tr>
+                <td style="border-bottom:1px #f0f0f0 solid;line-height:1.5rem;padding-left: 4%;" class="order_status">
+                    2017-03-02 14:18:56
+                    <img src="image/sell/time3.png" class="order-timeimg" />
+                </td>
+              </tr>
+              <tr>
+                <td class="order_content">
+                  <a href="">
+                    <table cellspacing="0" cellpadding="5" width="100%" border="0" class="ectouch_table_no_border">
+                        <tbody>
+                        <tr style="border-bottom: 1px #f0f0f0 solid;">
+                            <td class="order-img" colspan="2">
+                            <img src="image/sell/img1.jpg" alt="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="order-sta">
+                                <ul>
+                                    <li>
+                                        <img src="image/dingdan/step1.png" alt="">
+                                        已提交
+                                    </li>
+                                    <li>
+                                        <img src="image/dingdan/step2.png" alt="">
+                                        已支付
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <p class="order-allfee">￥199</p>
+                                <a class="order_newbtn order_finish" href="">评价</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  </div>
+
+  <div class="InfoBox" style="padding:0;">
+            <table cellspacing="0" cellpadding="5" width="100%" border="0" class="ectouch_table" style="border-bottom: 6px #f0f0f0 solid;">
+                <tbody>
+                <tr>
+                    <td style="border-bottom:1px #f0f0f0 solid;line-height:1.5rem;padding-left: 4%;" class="order_status">
+                        2017-03-02 14:18:56
+                        <img src="image/sell/time3.png" class="order-timeimg" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="order_content">
+                        <a href="">
+                            <table cellspacing="0" cellpadding="5" width="100%" border="0" class="ectouch_table_no_border">
+                                <tbody>
+                                <tr style="border-bottom: 1px #f0f0f0 solid;">
+                                    <td class="order-img" colspan="2">
+                                        <img src="image/sell/img1.jpg" alt="">
+                                        <img src="image/sell/img2.jpg" alt="">
+                                        <img src="image/sell/img3.jpg" alt="">
+                                        <img src="image/sell/img2.jpg" alt="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="order-sta">
+                                        <ul>
+                                            <li>
+                                                <img src="image/dingdan/step1.png" alt="">
+                                                已提交
+                                            </li>
+                                            <li>
+                                                <img src="image/dingdan/step2.png" alt="">
+                                                未支付
+                                            </li>
+                                            <li>
+                                                <img src="image/dingdan/stop.png" alt="">
+                                                已取消
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <p class="order-allfee">￥199</p>
+                                        <a class="order_newbtn order_finish" href="">查看详情</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+  <div class="InfoBox" style="padding:0;">
+            <table cellspacing="0" cellpadding="5" width="100%" border="0" class="ectouch_table" style="border-bottom: 6px #f0f0f0 solid;">
+                <tbody>
+                <tr>
+                    <td style="border-bottom:1px #f0f0f0 solid;line-height:1.5rem;padding-left: 4%;" class="order_status">
+                        2017-03-02 14:18:56
+                        <img src="image/sell/time3.png" class="order-timeimg" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="order_content">
+                        <a href="">
+                            <table cellspacing="0" cellpadding="5" width="100%" border="0" class="ectouch_table_no_border">
+                                <tbody>
+                                <tr style="border-bottom: 1px #f0f0f0 solid;">
+                                    <td class="order-img" colspan="2">
+                                        <img src="image/sell/img1.jpg" alt="">
+                                        <img src="image/sell/img2.jpg" alt="">
+                                        <img src="image/sell/img3.jpg" alt="">
+                                        <img src="image/sell/img2.jpg" alt="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="order-sta">
+                                        <ul>
+                                            <li>
+                                                <img src="image/dingdan/step1.png" alt="">
+                                                已提交
+                                            </li>
+                                            <li>
+                                                <img src="image/dingdan/step2.png" alt="">
+                                                未支付
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <p class="order-allfee">￥199</p>
+                                        <a class="order_newbtn order_finish" href="">查看详情</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>      
+  </section>
+  <a href="javascript:;" class="get_more"></a>
+</section>
+  <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+<script type="text/javascript">
+{foreach from=$lang.merge_order_js item=item key=key}
+        var {$key} = "{$item}";
+{/foreach}
+get_asynclist("{:url('user/async_order_list',array('pay'=>$this->_var['pay'],'type'=>$this->_var['type']))}" , '__TPL__/images/loader.gif');
+</script>
+</body></html>

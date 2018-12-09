@@ -1,0 +1,146 @@
+﻿<div id="page">
+  <header id="header">
+    <div class="header_l header_return">
+     <a class="header-go" href="{:url('user/order_list')}">
+       <span></span>
+       <i></i>
+     </a>
+    </div>
+    <h1>订单详情</h1>
+  </header>
+  <div class="header-px"></div>
+</div>
+<div class="sell_dingdan_bg" style="padding-bottom: 0;">
+    <div  class="sell_dingdan_content4">
+        <div class="sell_dingdan_content4_main">
+            <p class="sell_dingdan_content4_main_p1">订 单 号：</p>
+            <p class="sell_dingdan_content4_main_p2">{$order.order_sn}</p>
+        </div>
+    </div>
+</div>
+
+<section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
+  <div class="table_box table_box3">
+    <div class="Info InfoBox">
+      <!-- {foreach from=$goods_list item=goods} -->
+        <dl class="goods-dl">
+          <dd class="goods-dd1">
+            <div class="goods-img">
+              <ul>
+                  <li><a><img alt="{$goods.goods_name}" src="http://mp.99yanwo.com/{$goods.original_img}"/></a></li>
+              </ul>
+              <p>3小时达</p>
+            </div>
+            <!-- {if $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'} -->
+            <a href="javascript:void(0)" onClick="setSuitShow({$goods.goods_id})" >
+                {$goods.goods_name}
+                <span style="color:#FF0000;">（{$lang.remark_package}）</span>
+            </a>
+            <!-- { else } -->
+            <a href="{:url('goods/index',array('id'=>$this->_var['goods']['goods_id']))}">{$goods.goods_name}</a>
+            <!-- {if $goods.parent_id > 0} -->
+            <span style="color:#FF0000">（{$lang.accessories}）</span>
+            <!-- {elseif $goods.is_gift} -->
+            <span style="color:#FF0000">（{$lang.largess}）</span>
+            <!-- {/if} -->
+            <!-- {/if} -->
+            <!-- {if $goods.is_shipping} -->
+                <span style="color:#FF0000;font-size:0.5rem;">
+                    ({$lang.free_goods})
+                </span>
+            <!-- {/if} -->
+        </dd>
+        <dd class="goods-dd2" style="text-align:right;">
+           <p class="goods-red">抢鲜价{$goods.formated_subtotal}</p>
+           <p>x {$goods.goods_number}</p>
+        </dd>
+        </dl>
+        <!-- {/foreach} -->
+    </div>
+    <div class="totle">
+      <div class="InfoBox" style="border-top:0.4rem solid #f0f0f0;border-bottom:0.4rem solid #f0f0f0;">
+        <!-- #BeginLibraryItem "/Library/order_total.lbi" --><!-- #EndLibraryItem -->
+      </div>
+     </div>
+  </div>
+</section>
+<section class="order_box padd1" style=" padding-top: 1.2rem;padding-bottom: 3rem;">
+     {if $pay_id eq 1}
+        <input type="radio" name="payment" value="1" id="yuepay" style="display:none;">
+        <label for="yuepay" class="pay-yue">
+            <img src="themes/99yanwo/image/dingdan/icon1.png">
+            <p>余额支付</p>
+        </label>
+    {elseif $pay_id eq 4}
+        <input type="radio" name="payment" value="4" id="wxpay" style="display:none;" checked>
+        <label for="wxpay" class="pay-wx">
+            <img src="themes/99yanwo/image/dingdan/icon2.png">
+            <p>微信支付</p>
+        </label>
+    {/if}
+</section>
+<section class="content">
+  <div id="J_plugin_cart">
+    <div class="bcont">
+      <div id="J_allGoods">
+        <div class="cont">
+          <section class="order on">
+            <h6 class="pay-tip radius5" style="display:none;">{$lang.remember_order_number}: <font style="color:red">{$order.order_sn}</font></h6>
+           
+            <!--{if $virtual_card}-->
+            <div  style="text-align:center;overflow:hidden;border:1px solid #E2C822; background:#FFF9D7;margin:10px;padding:10px 50px 30px; margin:10px;"> 
+              <!--{foreach from=$virtual_card item=vgoods}-->
+              <h3 style="color:#2359B1; font-size:12px;">{$vgoods.goods_name}</h3>
+              <!--{foreach from=$vgoods.info item=card}-->
+              <ul style="list-style:none;padding:0;margin:0;clear:both">
+                <!--{if $card.card_sn}-->
+                <li style="margin-right:50px;float:left;"> <strong>{$lang.card_sn}:</strong><span style="color:red;">{$card.card_sn}</span> </li>
+                <!--{/if}--> 
+                <!--{if $card.card_password}-->
+                <li style="margin-right:50px;float:left;"> <strong>{$lang.card_password}:</strong><span style="color:red;">{$card.card_password}</span> </li>
+                <!--{/if}--> 
+                <!--{if $card.end_date}-->
+                <li style="float:left;"> <strong>{$lang.end_date}:</strong>{$card.end_date} </li>
+                <!--{/if}-->
+              </ul>
+              <!--{/foreach}--> 
+              <!--{/foreach}--> 
+            </div>
+            <!--{/if}-->
+            <p style="text-align:center; margin-bottom:20px; display:none;">{$order_submit_back}</p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="sell_dingdan_bottom">
+   <p class="sell_dingdan_bottom1">{$total.amount_formated}</p>
+    {if $pay_id eq 1}
+        <a class="pay-yuebtn">余额支付</a>
+    {elseif $pay_id eq 4}
+    <table align="center" border="0" cellpadding="15" cellspacing="0" style="width:23%;border-collapse:inherit; display:block;float:right;" class="radius5 sell-bottom-img wx-zhifu">
+      {if $pay_online}
+      <!-- 如果是线上支付则显示支付按钮 -->
+      <tr>
+        <td align="center">{$pay_online}</td>
+      </tr>
+      {/if}
+    </table>
+  {/if}
+  <div class="clearfix"></div>
+  <script>
+      var pay_id = {$pay_id};
+      if(pay_id ==4){
+          window.onload = function(){
+              callpay();
+          }
+      }
+      /*else if(pay_id ==1){
+          window.onload = function(){
+              balance_pay();
+          }
+
+      }*/
+  </script>
+</div>

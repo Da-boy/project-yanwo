@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<!-- {if $cat_style} -->
+<link href="{$cat_style}" rel="stylesheet" type="text/css" />
+<!-- {/if} -->
+{* 包含脚本文件 *}
+{insert_scripts files='jquery-1.9.1.min.js,jquery.json.js'}
+{insert_scripts files='common.js,global.js,compare.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem --> {insert_scripts files='jd_category.js'}
+<div class="w">
+  <div class="breadcrumb">
+    <h1><a href="{$cat_info.url}">{$cat_info.cat_name}</a></h1>
+    <span> &nbsp;&nbsp;&nbsp; 
+    
+    <!--{foreach from=$categories_child item=child name=foo}--> 
+    
+    <a target="_blank" href="{$child.url}">{$child.name|escape:html}</a> <!-- {if !$smarty.foreach.foo.last} -->&nbsp;|&nbsp;<!-- {/if} --> 
+    
+    <!-- {/foreach} --> 
+    
+    </span> </div>
+  <!--breadcrumb end -->
+  <div class="clr"></div>
+</div>
+<div class="w">
+  <div class="left">
+    <div id="sortlist" class="m">
+      <div class="mt">
+        <h2>{$cat_info.cat_name}</h2>
+      </div>
+      <div class="mc"> 
+        <!--{foreach from=$categories_child item=child name=foo}--> 
+        {if $smarty.foreach.foo.iteration < 7}
+        <div class="item fore{$smarty.foreach.foo.iteration}">
+          <h3> <a href="{$child.url}">{$child.name|escape:html}</a> </h3>
+          <div class="con"> 
+            <!--{foreach from=$child.cat_id item=childer name=foo2}--> 
+            {if $smarty.foreach.foo2.iteration < 5} <a href="{$childer.url}" title="{$childer.name|escape:html}">{$childer.name|escape:html}</a> {/if} 
+            <!--{/foreach}--> 
+            
+            <span class="clr"></span> </div>
+        </div>
+        {/if} 
+        <!-- {/foreach} --> 
+        
+      </div>
+    </div>
+  </div>
+  <div class="middle">
+    <div class="slide" id="slide">
+      <ul class="slide-items">
+       
+        <li> {insert name='ads_pro' cat_name=$cat_info.cat_name type='顶级分类页幻灯片广告1'}</li>
+        <li> {insert name='ads_pro' cat_name=$cat_info.cat_name type='顶级分类页幻灯片广告2'}</li>
+        <li> {insert name='ads_pro' cat_name=$cat_info.cat_name type='顶级分类页幻灯片广告3'}</li>
+        <li> {insert name='ads_pro' cat_name=$cat_info.cat_name type='顶级分类页幻灯片广告4'}</li>
+        <li> {insert name='ads_pro' cat_name=$cat_info.cat_name type='顶级分类页幻灯片广告5'}</li>
+        
+      </ul>
+     
+      
+      <div class="slide-controls"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+    
+    </div>
+    <div id="bargain" class="m"> 
+      <!--{foreach from=$cat_best_goods item=goods_child name=foo}--> 
+      <!--{if $smarty.foreach.foo.iteration < 5}-->
+      <div class="fore{$smarty.foreach.foo.iteration}{if $smarty.foreach.foo.iteration eq 1} curr{/if} cat-tab-item">
+        <div class="mt">
+          <h2>{$goods_child.cat_name}</h2>
+        </div>
+        <div class="mc">
+          <ul>
+            <!--{foreach from=$goods_child.goods item=goods name=foo2}--> 
+            <!--{if $smarty.foreach.foo2.iteration < 6}-->
+            <li class="fore{$smarty.foreach.foo2.iteration}">
+              <div class="p-img"> <a target="_blank" title="{$goods.name}" href="{$goods.url}"> <img width="160" height="160" alt="{$goods.name}" src="{$goods.thumb}"> </a> </div>
+              <div class="p-name"> <a target="_blank" title="{$goods.name}" href="{$goods.url}">{$goods.name}<font class="sku1150076" color="#ff6600"><a target="blank" href="{$goods.url}">{$goods.name}</a></font></a> </div>
+              <div class="p-price"> {$lang.shop_prices}：<strong>{if $goods.promote_price neq ''}{$goods.promote_price}{else}{$goods.shop_price}{/if}</strong> </div>
+            </li>
+            <!--{/if}--> 
+            <!--{/foreach}-->
+            
+          </ul>
+        </div>
+      </div>
+      <!--{/if}--> 
+      <!--{/foreach}--> 
+    </div>
+  </div>
+  <div class="right">
+    <div id="bulletin" class="m"> <!-- TemplateBeginEditable name="公告区域" --> <!-- #BeginLibraryItem "/library/cat_articles.lbi" --> {if $script_name eq 'index'}
+      <div class="mt">
+        <h2>{$articles_cat.name|escape:html}</h2>
+        <div class="extra"><a href="{$articles_cat.url}" target="_blank">更多快报&nbsp;&gt;</a></div>
+      </div>
+      <div class="mc">
+        <ul>
+          <!--{foreach from=$articles item=article_item}-->
+          <li {if $smarty.foreach.foo.iteration mod 2 eq 1}class="odd"{/if}><a href="{$article_item.url}" target="_blank" title="{$article_item.title|escape:html}">{$article_item.short_title}</a></li>
+          <!--{/foreach}-->
+          
+        </ul>
+      </div>
+      {else}
+      <div class="mt">
+        <h2>{$articles_cat.name|escape:html}</h2>
+      </div>
+      <div class="mc">
+        <ul>
+          <!--{foreach from=$articles item=article_item}-->
+          <li>·<a target="_blank" href="{$article_item.url}" title="{$article_item.title|escape:html}">{$article_item.short_title}</a></li>
+          <!--{/foreach}-->
+          
+        </ul>
+      </div>
+      {/if} <!-- #EndLibraryItem --> <!-- TemplateEndEditable --> </div>
+    <!--bulletin end-->
+    <div id="limitbuy" class="m"> <!-- TemplateBeginEditable name="促销商品区域" --> <!-- #BeginLibraryItem "/library/recommend_promotion.lbi" --> 
+      
+      <!-- {if $promotion_goods} --> 
+      {if $script_name eq 'category'}
+      <div class="mt">
+        <h2>限时抢购</h2>
+      </div>
+      <div class="mc">
+        <ul>
+          <li>
+            <div class="clock" id="t1077810">剩余<b>7</b>小时<b>35</b>分<b>36</b>秒</div>
+            <div class="p-img"><a href="http://item.jd.com/1077810.html" title="飞利浦（PHILIPS） 40PFL3240/T3 40英寸 全高清LED液晶电视（黑色）" target="_blank"><img width="100" height="100" src="http://img10.360buyimg.com/n4/g10/M00/1E/18/rBEQWFNolFEIAAAAAAJmPWsy67YAAGB1QL6EUQAAmZV810.jpg" alt="飞利浦（PHILIPS） 40PFL3240/T3 40英寸 全高清LED液晶电视（黑色）"></a></div>
+            <div class="p-name"><a href="http://item.jd.com/1077810.html" title="飞利浦（PHILIPS） 40PFL3240/T3 40英寸 全高清LED液晶电视（黑色）" target="_blank">飞利浦（PHILIPS） 40PFL3240/T3 40英寸 全高清LED液晶电视（黑色）</a></div>
+            <div class="p-price">京东价：<strong>￥2199.00</strong></div>
+          </li>
+          <li>
+            <div class="clock" id="t1003648">剩余<b>7</b>小时<b>35</b>分<b>36</b>秒</div>
+            <div class="p-img"><a href="http://item.jd.com/1003648.html" title="九阳（Joyoung） DGJ1502BM 白瓷电炖锅 1.5L" target="_blank"><img width="100" height="100" src="http://img13.360buyimg.com/n4/g12/M00/0F/06/rBEQYFNm8TcIAAAAAAG12GGleDAAAFf6ACxLPQAAbXw630.jpg" alt="九阳（Joyoung） DGJ1502BM 白瓷电炖锅 1.5L"></a></div>
+            <div class="p-name"><a href="http://item.jd.com/1003648.html" title="九阳（Joyoung） DGJ1502BM 白瓷电炖锅 1.5L" target="_blank">九阳（Joyoung） DGJ1502BM 白瓷电炖锅 1.5L</a></div>
+            <div class="p-price">京东价：<strong>￥99.00</strong></div>
+          </li>
+        </ul>
+      </div>
+      {else}
+      <div id="sales" class="f_l clearfix">
+        <h1><a href="../search.php?intro=promotion"><img src="images/more.gif" /></a></h1>
+        <div class="clearfix goodBox"> 
+          <!--{foreach from=$promotion_goods item=goods name="promotion_foreach"}--> 
+          {if $smarty.foreach.promotion_foreach.index <= 3}
+          <div class="goodList"> <a href="{$goods.url}"><img src="{$goods.thumb}" border="0" alt="{$goods.name|escape:html}"/></a><br />
+            <p><a href="{$goods.url}" title="{$goods.name|escape:html}">{$goods.short_name|escape:html}</a></p>
+            {$lang.promote_price}<font class="f1">{$goods.promote_price}</font> </div>
+          {/if} 
+          <!--{/foreach}--> 
+        </div>
+      </div>
+      {/if} 
+      <!-- {/if} --> <!-- #EndLibraryItem --> <!-- TemplateEndEditable --> </div>
+    <!--limitbuy end--> 
+    
+  </div>
+  <div class="clr"></div>
+</div>
+<div class="w">
+  <div class="scroll m">
+    <div id="prev1" class="btns disabled"></div>
+    <div id="next1" class="btns"></div>
+    <div class="con" style="position: relative; width: 1161px; height: 32px; overflow: hidden; ">
+      <ul>
+        <!--{foreach from=$brands1 item=brand name=foo}--> 
+        <!--{if $smarty.foreach.foo.iteration > 1}-->
+        <li> <a target="_blank" href="{$brand.url}" title="{$brand.brand_name}"> {if $brand.brand_logo} <img width="90" height="28" src="data/brandlogo/{$brand.brand_logo}"> {else}
+          {$brand.brand_name}
+          {/if} </a> </li>
+        <!--{/if}--> 
+        <!--{/foreach}-->
+        
+      </ul>
+    </div>
+  </div>
+</div>
+<!--{foreach from=$on_top_goods item=top_goods name=foo}-->
+<div class="w">
+  <div id="floor{$smarty.foreach.foo.iteration}" class="m floor_cat_top">
+    <div class="mt">
+      <h2>{$top_goods.cat_name}</h2>
+      <div class="extra"> 
+        <!--{foreach from=$top_goods.child_cat item=cat name=foo2}--> 
+        <a target="_blank" title="{$cat.cat_name}" href="{$cat.url}">{$cat.cat_name}</a> 
+        <!--{/foreach}--> 
+      </div>
+    </div>
+    <div class="mc" data-widget="tabs">
+      <div class="fore1 tabcon">
+        <div class="omc" id="rfid2870"> 
+          <!--{foreach from=$top_goods.goods item=goods name=foo2}--> 
+          {if $smarty.foreach.foo2.iteration eq 1}
+          <div class="fore-big">
+            <div class="p-img"> <a target="_blank" href="{$goods.url}"><img width="280" height="280" alt="{$goods.name}" src="{$goods.goods_img}" class="err-product"></a> </div>
+            <div class="p-info">
+              <div class="p-name"><a target="_blank" href="{$goods.url}">{$goods.name}</a></div>
+              <div class="p-price" sku="1027317"><strong>{if $goods.promote_price neq ""}{$goods.promote_price}{else}{$goods.price}{/if}</strong></div>
+              <div class="p-market"><del>{$goods.market_price}</del></div>
+              <div class="p-sale">热卖</div>
+              <div class="goumai"><a target="_blank" href="立即购买">立即购买</a></div>
+            </div>
+          </div>
+          {/if} 
+          <!--{/foreach}-->
+          
+          <div class="con">
+            <ul>
+              <!--{foreach from=$top_goods.goods item=goods name=foo2}--> 
+              {if $smarty.foreach.foo2.iteration > 1 AND $smarty.foreach.foo2.iteration < 8}
+              <li>
+                <div class="p-img"> <a target="_blank" title="{$goods.name}" href="{$goods.url}"> <img width="130" height="130" alt="{$goods.name}" src="{$goods.thumb}"> </a> </div>
+                <div class="p-name"> <a target="_blank" title="{$goods.name}" href="{$goods.url}">{$goods.name}<font class="sku1034404" color="#ff6600"><a target="blank" href="{$goods.url}">{$goods.brief}/a></font></a> </div>
+                <div class="p-price"> <strong>{if $goods.promote_price neq ""}{$goods.promote_price}{else}{$goods.shop_price}{/if}</strong> <del>{$goods.market_price}</del> </div>
+              </li>
+              {/if} 
+              <!--{/foreach}-->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!--floor1 end-->
+  <div id="floor{$smarty.foreach.foo.iteration}-top" class="m top1">
+    <div class="mt">
+      <h2>排行榜</h2>
+      <ul class="tab">
+        <!--{foreach from=$top_goods.top_goods item=top10 name=foo3}--> 
+        {if $smarty.foreach.foo3.iteration < 4}
+        <li class="{if $smarty.foreach.foo3.iteration eq 1}curr{/if}" >{$top10.cat_name}</li>
+        {/if} 
+        <!--{/foreach}-->
+      </ul>
+    </div>
+    <div class="mc"> 
+      <!--{foreach from=$top_goods.top_goods item=top10_goods name=foo4}-->
+      {if $smarty.foreach.foo4.iteration < 4}
+      <ul class="tabcon{if $smarty.foreach.foo4.iteration > 1} hide{/if}">
+        
+        <!--{foreach from=$top10_goods.goods item=goods name=foo5}--> 
+         {if $smarty.foreach.foo5.iteration < 6}
+        <li class="fore{$smarty.foreach.foo5.iteration} fore"><span class="i{$smarty.foreach.foo5.iteration}">{$smarty.foreach.foo5.iteration}</span>
+          <div class="p-img"><a href="{$goods.url}" target="_blank" title="{$goods.goods_name}"><img width="50" height="50" alt="{$goods.goods_name}" src="{$goods.goods_thumb}"></a></div>
+          <div class="p-name"><a href="{$goods.url}" target="_blank" title="{$goods.goods_name}">{$goods.goods_name}</a><font color="#ff6600"></font></div>
+          <div class="p-price"><strong>{$goods.price}</strong></div>
+        </li>
+         {/if} 
+        <!--{/foreach}-->
+        
+      </ul>
+       {/if} 
+      <!--{/foreach}--> 
+      
+    </div>
+  </div>
+  <!--floor1-top end-->
+  
+  <div class="clr"></div>
+</div>
+<!--{/foreach}-->
+<div class="w" style="display:none;">
+  <div id="single-choice" class="m">
+    <div class="mt">
+      <h2>精品晒单</h2>
+    </div>
+    <div class="mc">
+      <div id="prev2" class="btns disabled" style="display: none; "></div>
+      <div id="next2" class="btns disabled" style="display: none; "></div>
+      <div class="con">
+        <ul>
+            <li>
+            <div class="p-img"> <a title="德意烟灶" target="_blank" href="#"> <img width="160" height="160" src="#" alt="德意烟灶" data-img="1"> </a> </div>
+            <div class="p-name"> <a title="德意烟灶" target="_blank" href="#">德意烟灶</a> </div>
+          </li>
+            <div class="p-img"> <a title="德意烟灶" target="_blank" href="#"> <img width="160" height="160" src="#" alt="德意烟灶" data-img="1"> </a> </div>
+            <div class="p-name"> <a title="德意烟灶" target="_blank" href="#">德意烟灶</a> </div>
+          </li>
+           <li>
+            <div class="p-img"> <a title="德意烟灶" target="_blank" href="#"> <img width="160" height="160" src="#" alt="德意烟灶" data-img="1"> </a> </div>
+            <div class="p-name"> <a title="德意烟灶" target="_blank" href="#">德意烟灶</a> </div>
+          </li>
+              <li>
+            <div class="p-img"> <a title="德意烟灶" target="_blank" href="#"> <img width="160" height="160" src="#" alt="德意烟灶" data-img="1"> </a> </div>
+            <div class="p-name"> <a title="德意烟灶" target="_blank" href="#">德意烟灶</a> </div>
+          </li>
+            <li>
+            <div class="p-img"> <a title="德意烟灶" target="_blank" href="#"> <img width="160" height="160" src="#" alt="德意烟灶" data-img="1"> </a> </div>
+            <div class="p-name"> <a title="德意烟灶" target="_blank" href="#">德意烟灶</a> </div>
+          </li>
+          <li>
+            <div class="p-img"> <a title="德意烟灶" target="_blank" href="#"> <img width="160" height="160" src="#" alt="德意烟灶" data-img="1"> </a> </div>
+            <div class="p-name"> <a title="德意烟灶" target="_blank" href="#">德意烟灶</a> </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- #BeginLibraryItem "/library/help.lbi" --><!-- #EndLibraryItem --> <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

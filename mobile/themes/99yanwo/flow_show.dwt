@@ -1,0 +1,34 @@
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<header id="header">
+  <div class="header_l header_return">
+    <a onclick="javascript:history.go(-1);">
+        <span></span>
+        <i></i>
+    </a>
+  </div>
+  <h1>收益统计</h1>
+</header>
+<div class="header-px"></div>
+<div class="flow-show">
+    <ul>
+        <li>
+            <h2>Q1:目前有几种优惠方式</h2>
+            <p>优惠券，促销优惠，等多种优惠</p>
+        </li>
+        <li>
+            <h2>Q2:红包是什么？怎么获得？如何使用</h2>
+            <p>
+                (1)优惠券是可用券价基础上的一种优惠活动
+                <br>(2)优惠券可以在邀请新朋友等渠道获得，您可以在【我的】--【优惠券】中查看
+                <br>(3)如果您当前有优惠券，在订单结算时选择【使用优惠券】
+                <br>(4)优惠券不可用于积分兑换商品和特价促销商品
+            </p>
+        </li>
+        <li>
+            <h2>Q3:还有哪些优惠形式</h2>
+            <p>商城节假日，大型促销活动等多种优惠活动</p>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

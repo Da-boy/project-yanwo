@@ -1,0 +1,127 @@
+﻿<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<style>
+    .shake-bg{
+        background:url(/mobile/themes/99yanwo/image/song/bg_login.jpg) center top no-repeat;
+        background-size: 100% 100%;
+        height: 24.5rem;
+        position: relative;
+    }
+    .shake-button{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        max-width: 640px;
+    }
+    .shake-button input{
+        color: #fff;
+        border: 0;
+        -webkit-box-flex: 1;
+        display: block;
+        -webkit-user-select: none;
+        text-align: center;
+        background-color: #275d76;
+        width: 100%;
+        line-height: 1.8rem;
+        height: 1.8rem;
+        font-size: 0.75rem;
+        border-radius: 0;
+        box-shadow: 0 -1px 8px #275d76;
+    }
+    .shake-tab{
+        width: 66%;
+        position: absolute;
+        left: 17%;
+        top: 5rem;
+        text-align: center;
+    }
+    .shake-tab input{
+        background-color: transparent;
+        width: 100%;
+        line-height: 1.5rem;
+        height: 1.5rem;
+        text-align: center;
+        font-size: 0.6rem;
+        border-bottom: 2px solid #7d9ead;
+        color: #a8b9b6;
+    }
+    .shake-tab p{
+        color: #275d76;
+        font-size: 0.5rem;
+        line-height: 1.2rem;
+    }
+</style>
+<header id="header">
+  <div class="header_l header_return">
+      <a href="javascript:history.go(-1);">
+          <span></span>
+          <i></i>
+      </a>
+  </div>
+  <h1>摇一摇</h1>
+</header>
+<div class="header-px"></div>
+<div id="addBox" style="display: none;">请输入有效的手机号码！</div>
+    <div class="shake-bg">
+        <form id="shakeForm">
+            <table border="0" cellpadding="5" cellspacing="0" class="shake-tab">
+                <tr>
+                    <td>
+                        <input type="text" maxlength="6" name="user_name" title="" placeholder="请输入收货人姓名"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" maxlength="12" name="user_mobile" title="" id="user_mobile"
+                               placeholder="请输入收货人电话"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="user_address" title="" placeholder="请输入收货地址"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>*根据您填写的信息，我们会尽快将奖品送达</p>
+                    </td>
+                </tr>
+            </table>
+            <div class="shake-button">
+                <input type="button" name="submit" value="提交信息" id="shakeUp"/>
+                <input type="hidden" name="act" value="act_edit_address"/>
+                <input name="address_id" type="hidden" value=""/>
+            </div>
+        </form>
+    </div>
+<script>
+    $('#user_mobile').blur(function(){
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        if(!myreg.test($("#user_mobile").val()))
+        {
+            $("#addBox").show().delay(2500).hide(1);
+        }
+        })
+       $('#shakeUp').click(function(){
+            $.ajax({
+                url: 'index.php?m=default&c=song&a=add',
+                type:'POST', //GET
+                async:true,    //或false,是否异步
+               data: $('#shakeForm').serialize(),
+                dataType:'text',    //返回的数据格式：json/xml/html/script/jsonp/text
+               success:function(data){
+               if(data==true){
+                   alert("提交成功");
+                   var t = setTimeout("link()",700);
+                  }else{
+                   alert("提交失败，请重新提交");
+               }
+                }
+            });
+    });
+    function link(){
+       var url = 'index.php?m=default&c=sell&a=index';
+        window.location.href = url;
+    }
+</script>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body></html>

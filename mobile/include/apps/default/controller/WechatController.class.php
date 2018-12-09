@@ -1,0 +1,799 @@
+<?php
+
+/**
+ * ECTouch Open Source Project
+ * ============================================================================
+ * Copyright (c) 2012-2014 http://ectouch.cn All rights reserved.
+ * ----------------------------------------------------------------------------
+ * 文件名称：WechatControoller.class.php
+ * ----------------------------------------------------------------------------
+ * 功能描述：微信公众平台API
+ * ----------------------------------------------------------------------------
+ * Licensed ( http://www.ectouch.cn/docs/license.txt )
+ * ----------------------------------------------------------------------------
+ */
+/* 访问控制 */
+defined('IN_ECTOUCH') or die('Deny Access');
+
+class WechatController extends CommonController
+{
+
+    private $weObj = '';
+
+    private $orgid = '';
+
+    private $wechat_id = '';
+
+    /**
+     * 构造函数
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        
+        // 获取公众号配置
+        $this->orgid = I('get.orgid');
+		
+		
+        if (! empty($this->orgid)) {
+            $wxinfo = $this->get_config($this->orgid);
+            
+            $config['token'] = $wxinfo['token'];
+            $config['appid'] = $wxinfo['appid'];
+            $config['appsecret'] = $wxinfo['appsecret'];
+			//代码输出到text测试
+			$fp=fopen("log.txt","a");
+			$str='<?php $array=' . var_export($wxinfo ,TRUE) . '; ?>'."\r\n";			
+			fwrite($fp,date('Y-m-d H:i:s').$str."\r\n");
+			//测试代码结束
+            $this->weObj = new Wechat($config);
+            $this->weObj->valid();
+            $this->wechat_id = $wxinfo['id'];
+        }
+    }
+
+    /**
+     * 执行方法
+     */
+    public function index()
+    {
+        // 事件类型
+        $type = $this->weObj->getRev()->getRevType();
+        $wedata = $this->weObj->getRev()->getRevData();
+        $keywords = '';
+		//代码输出到text测试
+			$fp=fopen("log.txt","a");
+			$str='<?php $array=' . var_export($wedata,TRUE) . '; ?>'."\r\n";			
+			fwrite($fp,date('Y-m-d H:i:s').$str."\r\n");
+			//测试代码结束
+        if ($type == Wechat::MSGTYPE_TEXT) {
+            $keywords = $wedata['Content'];
+        } elseif ($type == Wechat::MSGTYPE_EVENT) {
+            if ('subscribe' == $wedata['Event']) {
+                // 关注
+                $this->subscribe($wedata['FromUserName']);
+                // 用户扫描带参数二维码(未关注)
+                if (isset($wedata['EventKey']) && ! empty($wedata['EventKey'])) {
+                    $keywords = $wedata['EventKey'];
+                }
+            } elseif ('unsubscribe' == $wedata['Event']) {
+                // 取消关注
+                $this->unsubscribe($wedata['FromUserName']);
+                exit();
+            } elseif ('MASSSENDJOBFINISH' == $wedata['Event']) {
+                // 群发结果
+                $data['status'] = $wedata['Status'];
+                $data['totalcount'] = $wedata['TotalCount'];
+                $data['filtercount'] = $wedata['FilterCount'];
+                $data['sentcount'] = $wedata['SentCount'];
+                $data['errorcount'] = $wedata['ErrorCount'];
+                // 更新群发结果
+                $this->model->table('wechat_mass_history')
+                    ->data($data)
+                    ->where('msg_id = "' . $wedata['MsgID'] . '"')
+                    ->update();
+                exit();
+            } elseif ('CLICK' == $wedata['Event']) {
+                /*
+                 * $wedata = array( 'ToUserName' => 'gh_1ca465561479', 'FromUserName' => 'oWbbLt4fDrg78mvacsfpvi9Juo4I', 'CreateTime' => '1408944652', 'MsgType' => 'event', 'Event' => 'CLICK', 'EventKey' => 'ffff' );
+                 */
+                // 点击菜单
+                $keywords = $wedata['EventKey'];
+            } elseif ('VIEW' == $wedata['Event']) {
+                $this->redirect($wedata['EventKey']);
+            } elseif ('SCAN' == $wedata['Event']) {
+                $keywords = $wedata['EventKey'];
+            }elseif('LOCATION'==$wedata ['Event']){
+			  $_SESSION['Latitude']=$wedata['Latitude'];
+			  $_SESSION['Longitude']=$wedata['Longitude'];
+			 
+			}
+        } else {
+            $this->msg_reply('msg');
+            exit();
+        }
+        // 回复
+        if (! empty($keywords)) {
+            // 多客服
+            $rs = $this->customer_service($wedata['FromUserName'], $keywords);
+            if (empty($rs)) {
+                // 功能插件
+                $rs1 = $this->get_function($wedata['FromUserName'], $keywords);
+                if (empty($rs1)) {
+                    // 关键词回复
+                    $rs2 = $this->keywords_reply($keywords);
+                    if (empty($rs2)) {
+                        // 消息自动回复
+                        $this->msg_reply('msg');
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 关注处理
+     *
+     * @param array $info            
+     */
+    private function subscribe($openid = '')
+    {
+       
+        
+        // 查找用户是否存在
+        $where['openid'] = $openid;
+        $rs = $this->model->table('wechat_user')
+            ->field('uid, subscribe')
+            ->where($where)
+            ->find();
+        // 未关注
+        if (empty($rs)) {
+			 // 用户信息
+			$info = $this->weObj->getUserInfo($openid);
+			if (empty($info)) {
+				$info = array();
+			}
+            // 设置的用户注册信息
+            $register = $this->model->table('wechat_extend')
+                ->field('config')
+                ->where('enable = 1 and command = "register_remind"')
+                ->find();
+            if (! empty($register)) {
+                $reg_config = unserialize($register['config']);
+                $username = $reg_config['user_pre'] . mt_rand(100000, 999999);
+                // 密码随机数
+                $rs = array();
+                $arr = range(0, 9);
+                $reg_config['pwd_rand'] = $reg_config['pwd_rand'] ? $reg_config['pwd_rand'] : 5;
+                for ($i = 0; $i < $reg_config['pwd_rand']; $i ++) {
+                    $rs[] = array_rand($arr);
+                }
+                $pwd_rand = implode('', $rs);
+                // 密码
+                $password = $reg_config['pwd_pre'] . $pwd_rand;
+                // 通知模版
+                $template = str_replace(array(
+                    '[$username]',
+                    '[$password]'
+                ), array(
+                    $username,
+                    $password
+                ), $reg_config['template']);
+            } else {
+                $username = 'wx_' . mt_rand(100000, 999999);
+                $password = '99yanwo' . mt_rand(100000, 999999);
+                // 通知模版
+                $template = '默认用户名：' . $username . "\r\n" . '默认密码：' . $password;
+            }
+            // 用户注册
+            $domain = get_top_domain();
+            if (model('Users')->register($username, $password, $username . '@' . $domain) !== false) {
+                $data['user_rank'] = 99;
+                
+                $this->model->table('users')
+                    ->data($data)
+                    ->where('user_name = "' . $username . '"')
+                    ->update();
+            } else {
+                die('');
+            }
+            $info['ect_uid'] = $_SESSION['user_id'];
+            // 获取用户所在分组ID
+            $group_id = $this->weObj->getUserGroup($openid);
+            $info['group_id'] = $group_id ? $group_id : '';
+            // 获取被关注公众号信息
+            $info['wechat_id'] = $this->wechat_id;
+            $info['subscribe'] = 1;
+            $info['openid'] = $openid;
+            $this->model->table('wechat_user')
+                ->data($info)
+                ->insert();
+            
+            // 关注时回复信息
+            $this->msg_reply('subscribe');
+            // 红包信息
+            $content = $this->send_message($openid, 'bonus', $this->weObj, 1);
+            $bonus_msg = '';
+            if (! empty($content)) {
+                $bonus_msg = $content['content'];
+            }
+            // 微信端发送消息
+            $msg = array(
+                'touser' => $openid,
+                'msgtype' => 'text',
+                'text' => array(
+                    //'content' => $template . "\r\n" . $bonus_msg
+                    'content' =>  $bonus_msg
+                )
+            );
+            $this->weObj->sendCustomMessage($msg);
+        } else {
+            $info['subscribe'] = 1;
+            $this->model->table('wechat_user')
+                ->data($info)
+                ->where($where)
+                ->update();
+            // 关注时回复信息
+            $this->msg_reply('subscribe');
+        }
+    }
+
+    /**
+     * 取消关注
+     *
+     * @param string $openid            
+     */
+    public function unsubscribe($openid = '')
+    {
+        // 未关注
+        $where['openid'] = $openid;
+        $rs = $this->model->table('wechat_user')
+            ->where($where)
+            ->count();
+			
+        // 修改关注状态
+        if ($rs > 0) {
+            $data['subscribe'] = 0;
+            $this->model->table('wechat_user')
+                ->data($data)
+                ->where($where)
+                ->update();
+        }
+    }
+
+    /**
+     * 被动关注，消息回复
+     *
+     * @param string $type            
+     * @param string $return            
+     */
+    private function msg_reply($type, $return = 0)
+    {
+        $replyInfo = $this->model->table('wechat_reply')
+            ->field('content, media_id')
+            ->where('type = "' . $type . '" and wechat_id = ' . $this->wechat_id)
+            ->find();
+        if (! empty($replyInfo)) {
+            if (! empty($replyInfo['media_id'])) {
+                $replyInfo['media'] = $this->model->table('wechat_media')
+                    ->field('title, content, file, type, file_name')
+                    ->where('id = ' . $replyInfo['media_id'])
+                    ->find();
+                if ($replyInfo['media']['type'] == 'news') {
+                    $replyInfo['media']['type'] = 'image';
+                }
+                // 上传多媒体文件
+                $rs = $this->weObj->uploadMedia(array(
+                    'media' => '@' . ROOT_PATH . $replyInfo['media']['file']
+                ), $replyInfo['media']['type']);
+                
+                // 回复数据重组
+                if ($rs['type'] == 'image' || $rs['type'] == 'voice') {
+                    $replyData = array(
+                        'ToUserName' => $this->weObj->getRev()->getRevFrom(),
+                        'FromUserName' => $this->weObj->getRev()->getRevTo(),
+                        'CreateTime' => time(),
+                        'MsgType' => $rs['type'],
+                        ucfirst($rs['type']) => array(
+                            'MediaId' => $rs['media_id']
+                        )
+                    );
+                } elseif ('video' == $rs['type']) {
+                    $replyData = array(
+                        'ToUserName' => $this->weObj->getRev()->getRevFrom(),
+                        'FromUserName' => $this->weObj->getRev()->getRevTo(),
+                        'CreateTime' => time(),
+                        'MsgType' => $rs['type'],
+                        ucfirst($rs['type']) => array(
+                            'MediaId' => $rs['media_id'],
+                            'Title' => $replyInfo['media']['title'],
+                            'Description' => strip_tags($replyInfo['media']['content'])
+                        )
+                    );
+                }
+                $this->weObj->reply($replyData);
+            } else {
+                // 文本回复
+                $replyInfo['content'] = html_out($replyInfo['content']);
+                $this->weObj->text($replyInfo['content'])->reply();
+            }
+        }
+        if ($return) {
+            return true;
+        }
+    }
+
+    /**
+     * 关键词回复
+     *
+     * @param string $keywords            
+     * @return boolean
+     */
+    private function keywords_reply($keywords)
+    {
+        $endrs = false;
+        $sql = 'SELECT r.content, r.media_id, r.reply_type FROM ' . $this->model->pre . 'wechat_reply r LEFT JOIN ' . $this->model->pre . 'wechat_rule_keywords k ON r.id = k.rid WHERE k.rule_keywords = "' . $keywords . '" and r.wechat_id = ' . $this->wechat_id . ' order by r.add_time desc LIMIT 1';
+        $result = $this->model->query($sql);
+        if (! empty($result)) {
+            // 素材回复
+            if (! empty($result[0]['media_id'])) {
+                $mediaInfo = $this->model->table('wechat_media')
+                    ->field('title, content, file, type, file_name, article_id, link')
+                    ->where('id = ' . $result[0]['media_id'])
+                    ->find();
+                
+                // 回复数据重组
+                if ($result[0]['reply_type'] == 'image' || $result[0]['reply_type'] == 'voice') {
+                    // 上传多媒体文件
+                    $rs = $this->weObj->uploadMedia(array(
+                        'media' => '@' . ROOT_PATH . $mediaInfo['file']
+                    ), $result[0]['reply_type']);
+                    
+                    $replyData = array(
+                        'ToUserName' => $this->weObj->getRev()->getRevFrom(),
+                        'FromUserName' => $this->weObj->getRev()->getRevTo(),
+                        'CreateTime' => time(),
+                        'MsgType' => $rs['type'],
+                        ucfirst($rs['type']) => array(
+                            'MediaId' => $rs['media_id']
+                        )
+                    );
+                    // 回复
+                    $this->weObj->reply($replyData);
+                    $endrs = true;
+                } elseif ('video' == $result[0]['reply_type']) {
+                    // 上传多媒体文件
+                    $rs = $this->weObj->uploadMedia(array(
+                        'media' => '@' . ROOT_PATH . $mediaInfo['file']
+                    ), $result[0]['reply_type']);
+                    
+                    $replyData = array(
+                        'ToUserName' => $this->weObj->getRev()->getRevFrom(),
+                        'FromUserName' => $this->weObj->getRev()->getRevTo(),
+                        'CreateTime' => time(),
+                        'MsgType' => $rs['type'],
+                        ucfirst($rs['type']) => array(
+                            'MediaId' => $rs['media_id'],
+                            'Title' => $replyInfo['media']['title'],
+                            'Description' => strip_tags($replyInfo['media']['content'])
+                        )
+                    );
+                    // 回复
+                    $this->weObj->reply($replyData);
+                    $endrs = true;
+                } elseif ('news' == $result[0]['reply_type']) {
+                    // 图文素材
+                    $articles = array();
+                    if (! empty($mediaInfo['article_id'])) {
+                        $artids = explode(',', $mediaInfo['article_id']);
+                        foreach ($artids as $key => $val) {
+                            $artinfo = $this->model->table('wechat_media')
+                                ->field('title, file, content, link')
+                                ->where('id = ' . $val)
+                                ->find();
+                            $artinfo['content'] = strip_tags(html_out($artinfo['content']));
+                            $articles[$key]['Title'] = $artinfo['title'];
+                            $articles[$key]['Description'] = $artinfo['content'];
+                            $articles[$key]['PicUrl'] = __URL__ . '/' . $artinfo['file'];
+                            $articles[$key]['Url'] = $artinfo['link'];
+                        }
+                    } else {
+                        $articles[0]['Title'] = $mediaInfo['title'];
+                        $articles[0]['Description'] = strip_tags(html_out($mediaInfo['content']));
+                        $articles[0]['PicUrl'] = __URL__ . '/' . $mediaInfo['file'];
+                        $articles[0]['Url'] = $mediaInfo['link'];
+                    }
+                    // 回复
+                    $this->weObj->news($articles)->reply();
+                    $endrs = true;
+                }
+            } else {
+                // 文本回复
+                $result[0]['content'] = html_out($result[0]['content']);
+                $this->weObj->text($result[0]['content'])->reply();
+                $endrs = true;
+            }
+        }
+        return $endrs;
+    }
+
+    /**
+     * 功能变量查询
+     *
+     * @param unknown $tousername            
+     * @param unknown $fromusername            
+     * @param unknown $keywords            
+     * @return boolean
+     */
+    public function get_function($fromusername, $keywords)
+    {
+        $return = false;
+        $rs = $this->model->table('wechat_extend')
+            ->field('name, command, config')
+            ->where('keywords like "%' . $keywords . '%" and enable = 1 and wechat_id = ' . $this->wechat_id)
+            ->order('id asc')
+            ->find();
+        $file = ROOT_PATH . 'plugins/wechat/' . $rs['command'] . '/' . $rs['command'] . '.class.php';
+        if (file_exists($file)) {
+            require_once ($file);
+            $wechat = new $rs['command']();
+            $data = $wechat->show($fromusername, $rs);
+            if (! empty($data)) {
+                // 数据回复类型
+                if ($data['type'] == 'text') {
+                    $this->weObj->text($data['content'])->reply();
+                } elseif ($data['type'] == 'news') {
+                    $this->weObj->news($data['content'])->reply();
+                }
+                // 积分赠送
+                $wechat->give_point($fromusername, $rs);
+                $return = true;
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * 主动发送信息
+     *
+     * @param unknown $tousername            
+     * @param unknown $fromusername            
+     * @param unknown $keywords            
+     * @param unknown $weObj            
+     * @param unknown $return            
+     * @return boolean
+     */
+    public function send_message($fromusername, $keywords, $weObj, $return = 0)
+    {
+        $result = false;
+        $rs = $this->model->table('wechat_extend')
+            ->field('name, command, config')
+            ->where('keywords like "%' . $keywords . '%" and enable = 1 and wechat_id = ' . $this->wechat_id)
+            ->order('id asc')
+            ->find();
+        $file = ROOT_PATH . 'plugins/wechat/' . $rs['command'] . '/' . $rs['command'] . '.class.php';
+        if (file_exists($file)) {
+            require_once ($file);
+            $wechat = new $rs['command']();
+            $data = $wechat->show($fromusername, $rs);
+            if (! empty($data)) {
+                if ($return) {
+                    // 积分赠送
+                    $wechat->give_point($fromusername, $rs);
+                    $result = $data;
+                } else {
+                    $weObj->sendCustomMessage($data['content']);
+                    // 积分赠送
+                    $wechat->give_point($fromusername, $rs);
+                    $result = true;
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 多客服
+     *
+     * @param unknown $fromusername            
+     * @param unknown $keywords            
+     */
+    public function customer_service($fromusername, $keywords)
+    {
+        $result = false;
+        // 是否处在多客服流程
+        $bein_kefu = $this->model->table('wechat_user')
+            ->field('bein_kefu')
+            ->where('openid = "' . $fromusername . '"')
+            ->getOne();
+        if ($keywords !== '' || (! empty($bein_kefu) && $keywords != 'ko#kefu')) {
+            $rs = $this->model->table('wechat_extend')
+                ->field('config')
+                ->where('command = "kefu" and enable = 1 and wechat_id = ' . $this->wechat_id)
+                ->getOne();
+            if (! empty($rs)) {
+                $config = unserialize($rs);
+                if (empty($bein_kefu)) {
+                    $msg = array(
+                        'touser' => $fromusername,
+                        'msgtype' => 'text',
+                        'text' => array(
+                            'content' => '您好，欢迎光临99度燕窝，请问有什么事可以帮您'
+                        )
+                    );
+                    $this->weObj->sendCustomMessage($msg);
+                    $this->model->table('wechat_user')
+                        ->data('bein_kefu = 1')
+                        ->where('openid = "' . $fromusername . '"')
+                        ->update();
+                } else {
+                    // 在线客服列表
+                    $online_list = $this->weObj->getCustomServiceOnlineKFlist();
+                    if ($online_list['kf_online_list']) {
+                        foreach ($online_list['kf_online_list'] as $key => $val) {
+                            if ($config['customer'] == $val['kf_account'] && $val['status'] > 0 && $val['accepted_case'] < $val['auto_accept']) {
+                                $customer = $config['customer'];
+                            } else {
+                                $customer = '';
+                            }
+                        }
+                    }
+                    // 转发客服消息
+                    $this->weObj->transfer_customer_service($customer)->reply();
+                }
+                $result = true;
+            }
+        } elseif ($keywords == 'ko#kefu' && ! empty($bein_kefu)) {
+            $msg = array(
+                'touser' => $fromusername,
+                'msgtype' => 'text',
+                'text' => array(
+                    'content' => '欢迎下次光临'
+                )
+            );
+            $this->weObj->sendCustomMessage($msg);
+            $this->model->table('wechat_user')
+                ->data('bein_kefu = 0')
+                ->where('openid = "' . $fromusername . '"')
+                ->update();
+            $result = true;
+        }
+        return $result;
+    }
+
+    /**
+     * 获取用户昵称，头像
+     *
+     * @param unknown $user_id            
+     * @return multitype:
+     */
+    static function get_avatar($user_id)
+    {
+        $u_row = model('Base')->model->table('wechat_user')
+            ->field('nickname, headimgurl')
+            ->where('ect_uid = ' . $user_id)
+            ->find();
+        if (empty($u_row)) {
+            $u_row = array();
+        }
+        return $u_row;
+    }
+
+    /**
+     * 微信OAuth操作
+     */
+    static function do_oauth()
+    {
+        // 默认公众号信息
+        $wxinfo = model('Base')->model->table('wechat')
+            ->field('id, token, appid, appsecret, oauth_redirecturi, type')
+            ->where('default_wx = 1 and status = 1')
+            ->find();
+        if (! empty($wxinfo) && $wxinfo['type'] == 2) {
+            $config['token'] = $wxinfo['token'];
+            $config['appid'] = $wxinfo['appid'];
+            $config['appsecret'] = $wxinfo['appsecret'];
+            
+            // 微信通验证
+            $weObj = new Wechat($config);
+            // 微信浏览器浏览
+            if (self::is_wechat_browser() && $_SESSION['user_id'] === 0) {
+                if (! isset($_SESSION['redirect_url'])) {
+                    session('redirect_url', __HOST__ . $_SERVER['REQUEST_URI']);
+                }
+                $url = $weObj->getOauthRedirect($wxinfo['oauth_redirecturi'], 1);
+                if (isset($_GET['code']) && $_GET['code'] != 'authdeny') {
+                    $token = $weObj->getOauthAccessToken();
+                    if ($token) {
+                        $userinfo = $weObj->getOauthUserinfo($token['access_token'], $token['openid']);
+                        self::update_weixin_user($userinfo, $wxinfo['id'], $weObj);
+                        if (! empty($_SESSION['redirect_url'])) {
+                            $redirect_url = session('redirect_url');
+                            header('Location:' . $redirect_url, true, 302);
+                            exit();
+                        }
+                    } else {
+                        header('Location:' . $url, true, 302);
+                        exit();
+                    }
+                } else {
+                    header('Location:' . $url, true, 302);
+                    exit();
+                }
+            }
+        }
+    }
+
+    /**
+     * 更新微信用户信息
+     *
+     * @param unknown $userinfo            
+     * @param unknown $wechat_id            
+     * @param unknown $weObj            
+     */
+    static function update_weixin_user($userinfo, $wechat_id, $weObj)
+    {
+        $time = time();
+        $ret = model('Base')->model->table('wechat_user')
+            ->field('openid, ect_uid')
+            ->where('openid = "' . $userinfo['openid'] . '"')
+            ->find();
+        if (empty($ret)) {
+            // 获取用户所在分组ID
+            $group_id = $weObj->getUserGroup($userinfo['openid']);
+            $group_id = $group_id ? $group_id : 0;
+            // 设置的用户注册信息
+            $register = model('Base')->model->table('wechat_setting')
+                ->field('config')
+                ->where('status = 1 and keywords = "register_remind"')
+                ->find();
+            if (! empty($register)) {
+                $reg_config = unserialize($register['config']);
+                $username = $reg_config['user_pre'] . mt_rand(100000, 999999);
+                // 密码随机数
+                $rs = array();
+                $arr = range(0, 9);
+                $reg_config['pwd_rand'] = $reg_config['pwd_rand'] ? $reg_config['pwd_rand'] : 3;
+                for ($i = 0; $i < $reg_config['pwd_rand']; $i ++) {
+                    $rs[] = array_rand($arr);
+                }
+                $pwd_rand = implode('', $rs);
+                // 密码
+                $password = $reg_config['pwd_pre'] . $pwd_rand;
+                // 通知模版
+                $template = str_replace(array(
+                    '[$username]',
+                    '[$password]'
+                ), array(
+                    $username,
+                    $password
+                ), $reg_config['template']);
+            } else {
+                $username = 'wx_' . mt_rand(100000, 999999);
+                $password = '99yanwo' . mt_rand(100000, 999999);
+                // 通知模版
+                $template = '默认用户名：' . $username . "\r\n" . '默认密码：' . $password;
+            }
+            // 会员注册
+            $domain = get_top_domain();
+            if (model('Users')->register($username, $password, $username . '@' . $domain) !== false) {
+                $data['user_rank'] = 99;
+                
+                model('Base')->model->table('users')
+                    ->data($data)
+                    ->where('user_name = "' . $username . '"')
+                    ->update();
+            } else {
+                die('授权失败，如重试一次还未解决问题请联系管理员');
+            }
+            $data1['wechat_id'] = $wechat_id;
+            $data1['subscribe'] = 1;
+            $data1['openid'] = $userinfo['openid'];
+            $data1['nickname'] = $userinfo['nickname'];
+            $data1['sex'] = $userinfo['sex'];
+            $data1['city'] = $userinfo['city'];
+            $data1['country'] = $userinfo['country'];
+            $data1['province'] = $userinfo['province'];
+            $data1['language'] = $userinfo['country'];
+            $data1['headimgurl'] = $userinfo['headimgurl'];
+            $data1['subscribe_time'] = $time;
+            $data1['ect_uid'] = $_SESSION['user_id'];
+            $data1['group_id'] = $group_id;
+            
+            model('Base')->model->table('wechat_user')
+                ->data($data1)
+                ->insert();
+            // 微信端发送消息
+            $msg = array(
+                'touser' => $userinfo['openid'],
+                'msgtype' => 'text',
+                'text' => array(
+                    'content' => $template
+                )
+            );
+            $weObj->sendCustomMessage($msg);
+        } else {
+           /*  model('Base')->model->table('wechat_user')
+                ->data('subscribe = 1')
+                ->where('openid = "' . $userinfo['openid'] . '"')
+                ->update(); */
+            $new_user_name = model('Base')->model->table('users')
+                ->field('user_name')
+                ->where('user_id = "' . $ret['ect_uid'] . '"')
+                ->getOne();
+        }
+        // 推送量
+        model('Base')->model->table('wechat')
+            ->data('oauth_count = oauth_count + 1')
+            ->where('default_wx = 1 and status = 1')
+            ->update();
+        
+        session('openid', $userinfo['openid']);
+        ECTouch::user()->set_session($new_user_name);
+        ECTouch::user()->set_cookie($new_user_name);
+        model('Users')->update_user_info();
+    }
+
+    /**
+     * 检查是否是微信浏览器访问
+     */
+    static function is_wechat_browser()
+    {
+        $user_agent = $_SERVER['HTTP_USER_AGENT'];
+        if (strpos($user_agent, 'MicroMessenger') === false) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 插件页面显示方法
+     *
+     * @param string $plugin            
+     */
+    public function plugin_show()
+    {
+        $plugin = I('get.name');
+        $file = ADDONS_PATH . 'wechat/' . $plugin . '/' . $plugin . '.class.php';
+        if (file_exists($file)) {
+            include_once ($file);
+            $wechat = new $plugin();
+            $wechat->html_show();
+        }
+    }
+
+    /**
+     * 插件处理方法
+     *
+     * @param string $plugin            
+     */
+    public function plugin_action()
+    {
+        $plugin = I('get.name');
+        $file = ADDONS_PATH . 'wechat/' . $plugin . '/' . $plugin . '.class.php';
+        if (file_exists($file)) {
+            include_once ($file);
+            $wechat = new $plugin();
+            $wechat->action();
+        }
+    }
+
+    /**
+     * 获取公众号配置
+     *
+     * @param string $orgid            
+     * @return array
+     */
+    private function get_config($orgid)
+    {
+        $config = $this->model->table('wechat')
+            ->field('id, token, appid, appsecret')
+            ->where('orgid = "' . $orgid . '" and status = 1')
+            ->find();
+        if (empty($config)) {
+            $config = array();
+        }
+        return $config;
+    }
+}
